@@ -1,25 +1,29 @@
 /* Colour palette sourced from https://colorhunt.co/palette/6e3cbc7267cb98bae7b8e4f0  */
 
 :root {
-    --purple: rgb(110, 60, 188);
-    --dark-blue: rgb(114, 103, 203);
-    --blue: rgb(152, 186, 231);
-    --light-blue: rgb(184, 228, 240);
+  --purple: rgb(110, 60, 188);
+  --dark-blue: rgb(114, 103, 203);
+  --blue: rgb(152, 186, 231);
+  --light-blue: rgb(184, 228, 240);
 }
 
 body {
-    background-color: var(--purple);
-    color: white;
+  background-color: var(--purple);
+  color: white;
 }
 
 .main-grid {
   margin: 20px 40px;
 }
 
+.row {
+  margin-bottom: 40px;
+}
+
 h1 {
   font-size: 2rem;
-  display: table-caption;
   text-align: right;
+  
 }
 
 h2 {
@@ -30,16 +34,16 @@ h3 {
 }
 
 .col-2 {
-    border-right: 2px solid var(--light-blue);
+  border-right: 2px solid var(--light-blue);
 }
-.btn-group{
-    border: 2px solid var(--blue);
-    border-radius: 10px;
+.btn-group {
+  border: 2px solid var(--blue);
+  border-radius: 10px;
 }
 .card {
-    color: white;
-    background-color: var(--dark-blue);
-    border: 2px solid var(--blue);
-    border-radius: 10px;
-    margin: 10px;
+  color: white;
+  background-color: var(--dark-blue);
+  border: 2px solid var(--blue);
+  border-radius: 10px;
+  margin: 10px;
 }
