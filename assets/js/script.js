@@ -9,6 +9,11 @@ $(".btn-toggle").click(function () {
   $(this).find(".btn").toggleClass("btn-default");
 });
 
+var weatherUnits = "metric";
+if ($("#imperial").hasClass("active")) {
+  var weatherUnits = "imperial";
+}
+console.log(weatherUnits);
 // Retrieve the current data and time.
 
 var today = dayjs();
@@ -44,8 +49,8 @@ function getLocation() {
         var createChoiceBtns = $("<button></button>")
           .attr("type", "button")
           .addClass("list-group-item btn btn-outline-primary")
-          .attr("data-lat", this.lat)
-          .attr("data-lon", this.lon)
+          .attr("data-lat", this.lat.toFixed(2))
+          .attr("data-lon", this.lon.toFixed(2))
           .attr("onclick", "getWeather(event);")
           .text(this.name + " , " + this.state + " , " + this.country);
         $(".location-searches").append(createChoiceBtns);
@@ -54,20 +59,24 @@ function getLocation() {
 }
 // Retrieve the weather conditions for the coordinates.
 function getWeather(event) {
-    // Fetching coordinates from data attributes of the selected location.
-  var lat = $(event.target).data("lat");
-  var lon = $(event.target).data("lon");
+  // Fetching coordinates from data attributes of the selected location.
+  var lat = $(event.target).data("lat").toString();
+  var lon = $(event.target).data("lon").toString();
   console.log(lat);
   console.log(lon);
-  var waetherUrl =
-    "api.openweathermap.org/data/2.5/forecast?lat=" +
-    lat +
-    "&lon=" +
-    lon +
-    "&appid=61a66bab5454a1423d5dd78c2e92913eS";
-}
+  console.log(weatherUnits);
+  var weatherUrl = "api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=61a66bab5454a1423d5dd78c2e92913e&units=metric";
 
-// Retrieve the current data and time.
+  // "api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=61a66bab5454a1423d5dd78c2e92913e&units=metric"
+
+  fetch(weatherUrl)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+    });
+}
 
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed
 
