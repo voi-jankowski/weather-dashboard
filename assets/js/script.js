@@ -5,9 +5,11 @@
 
 $(".btn-toggle").click(function () {
   $(this).find(".btn").toggleClass("active");
-
+  $(this).find(".btn").toggleClass("btn-primary");
   $(this).find(".btn").toggleClass("btn-default");
 });
+
+// Retrieve the current data and time.
 
 // Retrieve coordinates for a city name.
 
@@ -18,7 +20,7 @@ function getLocation() {
   var locationUrl =
     "http://api.openweathermap.org/geo/1.0/direct?q=" +
     searchPhrase +
-    "&limit=10&appid=61a66bab5454a1423d5dd78c2e92913e";
+    "&limit=5&appid=61a66bab5454a1423d5dd78c2e92913e";
 
   fetch(locationUrl)
     .then(function (response) {
@@ -34,24 +36,22 @@ function getLocation() {
         "list-group location-searches"
       );
       $("#search-box").append(createList);
+      // Display selection of multiple searches to narrow down the search.
       $.each(data, function () {
         var createChoiceBtns = $("<button></button>")
           .attr("type", "button")
-          .addClass("list-group-item")
-          .attr("onclick", "getCoordinates(this);")
+          .addClass("list-group-item btn btn-outline-primary")
+          .attr("onclick", "getWeather(this);")
           .text(this.name + " , " + this.state + " , " + this.country);
+        console.log(this);
         $(".location-searches").append(createChoiceBtns);
       });
     });
 }
-
-function getCoordinates() {}
-
-// Display selection of multiple searches to narrow down the search.
+// Retrieve the weather conditions for the coordinates.
+function getWeather(location) {}
 
 // Retrieve the current data and time.
-
-// Retrieve the weather conditions for the coordinates.
 
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed
 
