@@ -27,8 +27,8 @@
         </div>
         <div class="col-12 col-md-10 units-switch">
           <div class="btn-group btn-toggle float-right">
-            <button class="btn btn-default">°C</button>
-            <button class="btn btn-primary active">°F</button>
+            <button class="btn btn-default">°F</button>
+            <button class="btn btn-primary active">°C</button>
           </div>
         </div>
       </div>
@@ -66,6 +66,7 @@
                     id="search-phrase"
                     class="form-control"
                     placeholder="Search for a city..."
+                    
                   />
                 </div>
 
@@ -73,6 +74,7 @@
                   type="button"
                   id="search-btn"
                   class="btn btn-primary w-100"
+                  onclick="getLocation()"
                 >
                   Search
                 </button>
