@@ -15,7 +15,6 @@ var today = dayjs();
 console.log(today.format("MMM D, YYYY"));
 
 // Retrieve coordinates for a city name.
-
 function getLocation() {
   var searchPhrase = $("#search-phrase").val();
   console.log(searchPhrase);
@@ -31,6 +30,7 @@ function getLocation() {
     })
     .then(function (data) {
       console.log(data);
+      //   Creating display of results for user to choose desired location.
       var createInstruction = $("<h3></h3>").text(
         "Select the location from below:"
       );
@@ -39,21 +39,32 @@ function getLocation() {
         "list-group location-searches"
       );
       $("#search-box").append(createList);
-      // Display selection of multiple searches to narrow down the search.
+      // Display selection of results as selectable buttons with data attributes with coordinates of the location.
       $.each(data, function () {
         var createChoiceBtns = $("<button></button>")
           .attr("type", "button")
           .addClass("list-group-item btn btn-outline-primary")
-          .attr("onclick", "getWeather(this);")
+          .attr("data-lat", this.lat)
+          .attr("data-lon", this.lon)
+          .attr("onclick", "getWeather(event);")
           .text(this.name + " , " + this.state + " , " + this.country);
-        console.log(this);
         $(".location-searches").append(createChoiceBtns);
       });
     });
 }
 // Retrieve the weather conditions for the coordinates.
-function getWeather(location) {
-  // var waetherUrl =
+function getWeather(event) {
+    // Fetching coordinates from data attributes of the selected location.
+  var lat = $(event.target).data("lat");
+  var lon = $(event.target).data("lon");
+  console.log(lat);
+  console.log(lon);
+  var waetherUrl =
+    "api.openweathermap.org/data/2.5/forecast?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&appid=61a66bab5454a1423d5dd78c2e92913eS";
 }
 
 // Retrieve the current data and time.
