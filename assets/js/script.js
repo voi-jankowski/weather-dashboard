@@ -11,6 +11,9 @@ $(".btn-toggle").click(function () {
 
 // Retrieve the current data and time.
 
+var today = dayjs();
+console.log(today.format("MMM D, YYYY"));
+
 // Retrieve coordinates for a city name.
 
 function getLocation() {
@@ -49,7 +52,9 @@ function getLocation() {
     });
 }
 // Retrieve the weather conditions for the coordinates.
-function getWeather(location) {}
+function getWeather(location) {
+  // var waetherUrl =
+}
 
 // Retrieve the current data and time.
 
