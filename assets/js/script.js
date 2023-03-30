@@ -39,16 +39,17 @@ function getLocation() {
       var createInstruction = $("<h3></h3>").text(
         "Select the location from below:"
       );
+      $(createInstruction).addClass("removable");
       $("#search-box").append(createInstruction);
       var createList = $("<div></div>").addClass(
-        "list-group location-searches"
+        "list-group location-searches removable"
       );
       $("#search-box").append(createList);
       // Display selection of results as selectable buttons with data attributes with coordinates of the location.
       $.each(data, function () {
         var createChoiceBtns = $("<button></button>")
           .attr("type", "button")
-          .addClass("list-group-item btn btn-outline-primary")
+          .addClass("list-group-item btn btn-outline-primary removable")
           .attr("data-lat", this.lat.toFixed(2))
           .attr("data-lon", this.lon.toFixed(2))
           .attr("onclick", "getWeather(event);")
@@ -80,6 +81,7 @@ function getWeather(event) {
     .then(function (data) {
       console.log(data);
       console.log(data.city.name);
+      console.log(data.city.state);
       console.log(data.city.country);
       console.log(data.city.timezone);
       console.log(data.city.sunrise);
@@ -87,12 +89,25 @@ function getWeather(event) {
       console.log(data.list[0].dt);
       // Convert date and time to text format that can be used in display.
       var date = dayjs.unix(data.list[0].dt);
-      console.log(date.format('YYYY MMMM DD'));
+      console.log(date.format("YYYY MMMM DD"));
+
+      displayWeather(data);
+
+      // Remove the selection of results under search button.
+      $(".removable").remove();
     });
 }
 
-// 
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
+function displayWeather(data) {
+  if (data.city.state === undefined) {
+    $("#location-name").text(data.city.name + " , " + data.city.country);
+  } else {
+    $("#location-name").text(
+      data.city.name + " , " + data.city.state + " , " + data.city.country
+    );
+  }
+}
 
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast
 
