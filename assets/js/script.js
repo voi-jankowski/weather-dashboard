@@ -65,19 +65,27 @@ function getWeather(event) {
   console.log(lat);
   console.log(lon);
   console.log(weatherUnits);
-  var weatherUrl = "api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=61a66bab5454a1423d5dd78c2e92913e&units=metric";
-
-  // "api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=61a66bab5454a1423d5dd78c2e92913e&units=metric"
-
+  var weatherUrl =
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&appid=61a66bab5454a1423d5dd78c2e92913e&units=" +
+    weatherUnits;
+  console.log(weatherUrl);
   fetch(weatherUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
       console.log(data);
+      console.log(data.list[0].dt);
+      var date = dayjs.unix(data.list[0].dt);
+      console.log(date.format('YYYY MMMM DD'));
     });
 }
-
+// Convert date and time to text format that can be used in display.
+// 
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed
 
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast
