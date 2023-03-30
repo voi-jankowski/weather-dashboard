@@ -23,7 +23,6 @@ body {
 h1 {
   font-size: 2rem;
   text-align: right;
-  
 }
 
 h2 {
@@ -46,6 +45,10 @@ h3 {
   border: 2px solid var(--blue);
   border-radius: 10px;
   margin: 10px;
-  
 }
 
+.list-group-item {
+  background: none;
+  border-color: var(--light-blue);
+  border-top: 0;
+}

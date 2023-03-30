@@ -80,13 +80,14 @@ function getWeather(event) {
     .then(function (data) {
       console.log(data);
       console.log(data.list[0].dt);
+      // Convert date and time to text format that can be used in display.
       var date = dayjs.unix(data.list[0].dt);
       console.log(date.format('YYYY MMMM DD'));
     });
 }
-// Convert date and time to text format that can be used in display.
+
 // 
-// Display city name, the datem, icon representation of the weather, temp, humidity and wind speed
+// Display city name, the date, icon representation of the weather, temp, humidity and wind speed
 
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast
 
