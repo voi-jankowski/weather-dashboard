@@ -100,13 +100,7 @@ function getWeather(event) {
 
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
 function displayWeather(data) {
-  if (data.city.state === undefined) {
-    $("#location-name").text(data.city.name + " , " + data.city.country);
-  } else {
-    $("#location-name").text(
-      data.city.name + " , " + data.city.state + " , " + data.city.country
-    );
-  }
+  $("#location-name").text(data.city.name + " , " + data.city.country);
 }
 
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast

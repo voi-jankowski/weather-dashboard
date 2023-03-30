@@ -47,7 +47,7 @@ h3 {
   margin: 10px;
 }
 
-.list-group-flush-item {
+.weather-card .list-group-item {
   background: none;
   border-color: var(--light-blue);
   border-top: 0;
