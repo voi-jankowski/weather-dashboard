@@ -79,6 +79,11 @@ function getWeather(event) {
     })
     .then(function (data) {
       console.log(data);
+      console.log(data.city.name);
+      console.log(data.city.country);
+      console.log(data.city.timezone);
+      console.log(data.city.sunrise);
+      console.log(data.city.sunset);
       console.log(data.list[0].dt);
       // Convert date and time to text format that can be used in display.
       var date = dayjs.unix(data.list[0].dt);
