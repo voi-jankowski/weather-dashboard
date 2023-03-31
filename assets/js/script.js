@@ -66,6 +66,7 @@ function getWeather(event) {
   console.log(lat);
   console.log(lon);
   console.log(weatherUnits);
+  saveCity(lat, lon, weatherUnits);
   var weatherUrl =
     "https://api.openweathermap.org/data/2.5/forecast?lat=" +
     lat +
@@ -74,6 +75,7 @@ function getWeather(event) {
     "&appid=61a66bab5454a1423d5dd78c2e92913e&units=" +
     weatherUnits;
   console.log(weatherUrl);
+
   fetch(weatherUrl)
     .then(function (response) {
       return response.json();
@@ -106,6 +108,43 @@ function displayWeather(data) {
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast
 
 // Save the search in the local storage.
+function saveCity(lat, lon, weatherUnits) {
+  var newSearch = {
+    lat,
+    lon,
+    weatherUnits,
+  };
+  var savedSearch = JSON.parse(localStorage.getItem("savedSearch")) || [];
+
+  savedSearch.push(newSearch);
+
+  localStorage.setItem("savedSearch", JSON.stringify(savedSearch));
+}
+
+function saveLastGrade() {
+  // Save related form data as an object
+  var studentGrade = {
+    student: student.value,
+    grade: grade.value,
+    comment: comment.value.trim(),
+  };
+  // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+  localStorage.setItem("studentGrade", JSON.stringify(studentGrade));
+}
+
+function renderLastGrade() {
+  // Use JSON.parse() to convert text to JavaScript object
+  var lastGrade = JSON.parse(localStorage.getItem("studentGrade"));
+  console.log(lastGrade);
+  // Check if data is returned, if not exit out of the function
+  if (lastGrade !== null) {
+    document.getElementById("saved-name").textContent = lastGrade.student;
+    document.getElementById("saved-grade").innerHTML = lastGrade.grade;
+    document.getElementById("saved-comment").innerHTML = lastGrade.comment;
+  } else {
+    return;
+  }
+}
 
 // Retrieve the recent searches from the local storage and display them on the page.
 
