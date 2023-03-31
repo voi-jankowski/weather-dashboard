@@ -66,7 +66,7 @@ function getWeather(event) {
   console.log(lat);
   console.log(lon);
   console.log(weatherUnits);
-  saveCity(lat, lon, weatherUnits);
+  saveCity(lat, lon);
   var weatherUrl =
     "https://api.openweathermap.org/data/2.5/forecast?lat=" +
     lat +
@@ -108,28 +108,42 @@ function displayWeather(data) {
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast
 
 // Save the search in the local storage.
-function saveCity(lat, lon, weatherUnits) {
+function saveCity(lat, lon) {
   var newSearch = {
     lat,
     lon,
-    weatherUnits,
   };
   var savedSearch = JSON.parse(localStorage.getItem("savedSearch")) || [];
 
-  savedSearch.push(newSearch);
+  // Check if the object with those coordinates already exists
+  if (
+    savedSearch.some(
+      (savedSearch) =>
+        savedSearch.lat === newSearch.lat && savedSearch.lon === newSearch.lon
+    )
+  ) {
+    // Get the index number of the object if that object exists
+    var arrayIndex = savedSearch.findIndex(
+      (savedSearch) =>
+        savedSearch.lat === newSearch.lat && savedSearch.lon === newSearch.lon
+    );
+    // Remove the old object
+    savedSearch.splice(arrayIndex, 1);
+  }
 
-  localStorage.setItem("savedSearch", JSON.stringify(savedSearch));
-}
+  // If there is 6 locations saved remove the first saved location and add a new one, if less then 6 just add a new one.
+  if (savedSearch.length < 6) {
+    savetoLocal();
+  } else {
+    savedSearch.splice(0, 1);
+    savetoLocal();
+  }
 
-function saveLastGrade() {
-  // Save related form data as an object
-  var studentGrade = {
-    student: student.value,
-    grade: grade.value,
-    comment: comment.value.trim(),
-  };
-  // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
-  localStorage.setItem("studentGrade", JSON.stringify(studentGrade));
+  function savetoLocal() {
+    savedSearch.push(newSearch);
+
+    localStorage.setItem("savedSearch", JSON.stringify(savedSearch));
+  }
 }
 
 function renderLastGrade() {
