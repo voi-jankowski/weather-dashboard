@@ -112,6 +112,8 @@ function displayWeather(data) {
   // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
   // Display the date
+  var day1 = dayjs.unix(data.list[0].dt).format("dddd, MMMM D");
+  $("#day1-date").text(day1);
   // Display the icon of the weather
   // Display min and max temp
   // Display humidity
