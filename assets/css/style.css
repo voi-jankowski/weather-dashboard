@@ -25,7 +25,6 @@ h1 {
   text-align: right;
 }
 
-
 h3 {
   font-size: 1.5rem;
 }
@@ -49,4 +48,12 @@ h3 {
   background: none;
   border-color: var(--light-blue);
   border-top: 0;
+}
+
+.recent-card:hover {
+  cursor: pointer;
+}
+
+.recent-card:active {
+  scale: 1.1;
 }

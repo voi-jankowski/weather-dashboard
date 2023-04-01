@@ -156,24 +156,23 @@ function renderSearches() {
   // Check if data is returned, if not exit out of the function
   if (savedSearch !== null) {
     $.each(savedSearch, function () {
-      console.log(this);
-      var latSaved = this.lat;
-      console.log(latSaved);
-      var lonSaved = this.lon;
-      var citySaved = this.city;
       var div1 = $("<div>")
-        .addClass("card")
+        .addClass("card recent-card")
+
         .css({ width: "10rem", height: "10rem" });
-      var div2 = $("<div>").addClass(
-        "card-body text-center d-flex align-items-center"
-      );
+      var div2 = $("<div>")
+        .addClass("card-body text-center d-flex align-items-center")
+        .attr({
+          "data-lat": this.lat,
+          "data-lon": this.lon,
+        });
       var h3 = $("<h3>")
         .addClass("card-title")
         .attr({
-          "data-lat": latSaved,
-          "data-lon": lonSaved,
+          "data-lat": this.lat,
+          "data-lon": this.lon,
         })
-        .text(citySaved);
+        .text(this.city);
 
       div2.append(h3);
       div1.append(div2);
@@ -186,8 +185,7 @@ function renderSearches() {
 
 renderSearches();
 
-// Add event listener for the recent searches and present the forecast for the selected one.
-
+// Add event listener for the recent searches and present the forecast for the selected one and pass the parameter of event to getWeather.
 recentSearches.on("click", ".card", function (event) {
-  var selectedCity = $(event.target);
+ getWeather(event);
 });
