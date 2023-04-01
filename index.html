@@ -5,9 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Link to dayjs. -->
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.10.7/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.10.7/plugin/utc.js"></script>
+    <script src="https://unpkg.com/dayjs@1.10.7/plugin/timezone.js"></script>
     <!-- Link to jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
     <!-- Link to Bootstrap -->
     <link
       rel="stylesheet"
@@ -88,7 +91,7 @@
         <div class="col-12 col-md-10 d-flex flex-wrap justify-content-left">
           <div class="card mb-3" style="width: 18rem; height: 35rem">
             <div class="card-body weather-card">
-              <h5 id="location-name" class="card-title">Location</h5>
+              <h5 id="location-name" class="card-title"></h5>
               <h4 id="day1-date" class="card-title">Monday, March 30</h4>
               <img
                 class="card-img"
@@ -101,12 +104,12 @@
                 <li class="list-group-item">Wind speed</li>
                 <li class="list-group-item">
                   <i class="bi bi-sunrise-fill" style="font-size: 22px">
-                    <span style="font-size: 18px">06.00</span></i
+                    <span id="sunrise" style="font-size: 18px">06.00</span></i
                   ><i
                     class="bi bi-sunset-fill float-right"
                     style="font-size: 22px"
                   >
-                    <span style="font-size: 18px">19.00</span></i
+                    <span id="sunset" style="font-size: 18px">19.00</span></i
                   >
                 </li>
               </ul>

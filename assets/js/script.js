@@ -14,10 +14,14 @@ if ($("#imperial").hasClass("active")) {
   var weatherUnits = "imperial";
 }
 console.log(weatherUnits);
-// Retrieve the current data and time.
 
-var today = dayjs();
+// Retrieve the current data and time.
+var today = dayjs(1680373924 * 1000);
 console.log(today.format("MMM D, YYYY"));
+dayjs.extend(window.dayjs_plugin_utc);
+dayjs.extend(window.dayjs_plugin_timezone);
+let printFormat = "DD/MM/YYYY H:mm";
+let hourFormat = "H:mm";
 
 // Retrieve coordinates for a city name.
 function getLocation() {
@@ -103,7 +107,32 @@ function getWeather(event) {
 
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
 function displayWeather(data) {
+  console.log(data);
+  // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
+  // Display the date
+  // Display the icon of the weather
+  // Display min and max temp
+  // Display humidity
+  // Display wind speen
+  // Display sunrise and sunset times
+  console.log(data.city.sunrise);
+  console.log(data.city.sunset);
+  var timezone = data.city.timezone;
+  console.log(timezone);
+  var sunrise = dayjs(data.city.sunrise * 1000)
+    .utc()
+    .add(timezone, "second")
+    .format(hourFormat);
+  var sunset = dayjs(data.city.sunset * 1000)
+    .utc()
+    .add(timezone, "second")
+    .format(hourFormat);
+  console.log(sunrise);
+  console.log(sunset);
+
+  $("#sunrise").text(sunrise);
+  $("#sunset").text(sunset);
 }
 
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast
@@ -187,5 +216,5 @@ renderSearches();
 
 // Add event listener for the recent searches and present the forecast for the selected one and pass the parameter of event to getWeather.
 recentSearches.on("click", ".card", function (event) {
- getWeather(event);
+  getWeather(event);
 });
