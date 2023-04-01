@@ -66,7 +66,7 @@ function getWeather(event) {
   console.log(lat);
   console.log(lon);
   console.log(weatherUnits);
-  saveCity(lat, lon);
+
   var weatherUrl =
     "https://api.openweathermap.org/data/2.5/forecast?lat=" +
     lat +
@@ -92,7 +92,8 @@ function getWeather(event) {
       // Convert date and time to text format that can be used in display.
       var date = dayjs.unix(data.list[0].dt);
       console.log(date.format("YYYY MMMM DD"));
-
+      var city = data.city.name;
+      saveCity(lat, lon, city);
       displayWeather(data);
 
       // Remove the selection of results under search button.
@@ -108,10 +109,11 @@ function displayWeather(data) {
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast
 
 // Save the search in the local storage.
-function saveCity(lat, lon) {
+function saveCity(lat, lon, city) {
   var newSearch = {
     lat,
     lon,
+    city,
   };
   var savedSearch = JSON.parse(localStorage.getItem("savedSearch")) || [];
 
@@ -146,20 +148,39 @@ function saveCity(lat, lon) {
   }
 }
 
-function renderLastGrade() {
-  // Use JSON.parse() to convert text to JavaScript object
-  var lastGrade = JSON.parse(localStorage.getItem("studentGrade"));
-  console.log(lastGrade);
+// Retrieve the recent searches from the local storage and display them on the page.
+function renderSearches() {
+  // Retrieve the recent searches
+  var savedSearch = JSON.parse(localStorage.getItem("savedSearch"));
+  console.log(savedSearch);
   // Check if data is returned, if not exit out of the function
-  if (lastGrade !== null) {
-    document.getElementById("saved-name").textContent = lastGrade.student;
-    document.getElementById("saved-grade").innerHTML = lastGrade.grade;
-    document.getElementById("saved-comment").innerHTML = lastGrade.comment;
+  if (savedSearch !== null) {
+    for (var i = 0; i < savedSearch.length; i++) {
+      var latSaved = savedSearch[i].lat;
+      var lonSaved = savedSearch[i].lon;
+      var citySaved = savedSearch[i].city;
+      var div1 = $("<div>");
+      div1.addClass("card");
+      div1.css({ width: "10rem", height: "10rem" });
+      var div2 = $("<div>");
+      div2.addClass("card-body text-center d-flex align-items-center");
+      var h3 = $("<h3>");
+      h3.addClass("card-title");
+      h3.attr({
+        "data-lat": latSaved,
+        "data-lon": lonSaved,
+      });
+      h3.text(citySaved);
+
+      div2.append(h3);
+      div1.append(div2);
+      $("#recent-searches").append(div1);
+    }
   } else {
     return;
   }
 }
 
-// Retrieve the recent searches from the local storage and display them on the page.
+renderSearches();
 
 // Add event listener for the recent searches and present the forecast for the selected one.
