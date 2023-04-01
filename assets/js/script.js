@@ -1,19 +1,20 @@
 // GLOBAL VARIABLES
 // Variables for DOM elements
 var recentSearches = $("#recent-searches");
-// Button toggle to switch between celcius and farenheit.
 
+// Button toggle to switch between celcius and farenheit.
+var weatherUnits = "metric";
 $(".btn-toggle").click(function () {
   $(this).find(".btn").toggleClass("active");
   $(this).find(".btn").toggleClass("btn-primary");
   $(this).find(".btn").toggleClass("btn-default");
+  if ($("#imperial").hasClass("active")) {
+    var weatherUnits = "imperial";
+  } else {
+    var weatherUnits = "metric";
+  }
+  console.log(weatherUnits);
 });
-
-var weatherUnits = "metric";
-if ($("#imperial").hasClass("active")) {
-  var weatherUnits = "imperial";
-}
-console.log(weatherUnits);
 
 // Retrieve the current data and time.
 var today = dayjs(1680373924 * 1000);
