@@ -1,6 +1,6 @@
 // GLOBAL VARIABLES
 // Variables for DOM elements
-
+var recentSearches = $("#recent-searches");
 // Button toggle to switch between celcius and farenheit.
 
 $(".btn-toggle").click(function () {
@@ -155,27 +155,30 @@ function renderSearches() {
   console.log(savedSearch);
   // Check if data is returned, if not exit out of the function
   if (savedSearch !== null) {
-    for (var i = 0; i < savedSearch.length; i++) {
-      var latSaved = savedSearch[i].lat;
-      var lonSaved = savedSearch[i].lon;
-      var citySaved = savedSearch[i].city;
-      var div1 = $("<div>");
-      div1.addClass("card");
-      div1.css({ width: "10rem", height: "10rem" });
-      var div2 = $("<div>");
-      div2.addClass("card-body text-center d-flex align-items-center");
-      var h3 = $("<h3>");
-      h3.addClass("card-title");
-      h3.attr({
-        "data-lat": latSaved,
-        "data-lon": lonSaved,
-      });
-      h3.text(citySaved);
+    $.each(savedSearch, function () {
+      console.log(this);
+      var latSaved = this.lat;
+      console.log(latSaved);
+      var lonSaved = this.lon;
+      var citySaved = this.city;
+      var div1 = $("<div>")
+        .addClass("card")
+        .css({ width: "10rem", height: "10rem" });
+      var div2 = $("<div>").addClass(
+        "card-body text-center d-flex align-items-center"
+      );
+      var h3 = $("<h3>")
+        .addClass("card-title")
+        .attr({
+          "data-lat": latSaved,
+          "data-lon": lonSaved,
+        })
+        .text(citySaved);
 
       div2.append(h3);
       div1.append(div2);
-      $("#recent-searches").append(div1);
-    }
+      recentSearches.append(div1);
+    });
   } else {
     return;
   }
@@ -184,3 +187,7 @@ function renderSearches() {
 renderSearches();
 
 // Add event listener for the recent searches and present the forecast for the selected one.
+
+recentSearches.on("click", ".card", function (event) {
+  var selectedCity = $(event.target);
+});
