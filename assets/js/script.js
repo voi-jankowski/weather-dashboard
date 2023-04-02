@@ -94,28 +94,44 @@ function getWeather(event) {
       console.log(data.city.sunrise);
       console.log(data.city.sunset);
       console.log(data.list[0].dt);
-      // Convert date and time to text format that can be used in display.
-      var date = dayjs.unix(data.list[0].dt);
-      console.log(date.format("YYYY MMMM DD"));
+
       var city = data.city.name;
       saveCity(lat, lon, city);
       displayWeather(data);
       // Separate forecasts for different days
-      var forecast = data.list;
-      var firstDayForecast = [data.list[0]];
+
+      var timezone = data.city.timezone;
+      var firstDayForecast = [];
       var secondDayForecast = [];
       var thirdDayForecast = [];
       var fourthDayForecast = [];
       var fifthDayForecast = [];
-      var firstDayNumber = dayjs.unix(data.list[0].dt).format("DD");
+      var firstDay = dayjs(data.list[0].dt_txt).utc().add(timezone, "second");
+      console.log(firstDay);
+      var secondDay = dayjs.unix(data.list[8].dt).utc().add(timezone, "second");
+      var thirdDay = dayjs.unix(data.list[16].dt).utc().add(timezone, "second");
+      var fourthDay = dayjs.unix(data.list[24].dt).utc().add(timezone, "second");
+      var fifthDay = dayjs.unix(data.list[32].dt).utc().add(timezone, "second");
+      // var firstDayNumber = Number(firstDayNumberString);
 
       $.each(data.list, function () {
-        var dayNumber = dayjs.unix(this.dt).format("DD");
-        if (dayNumber === firstDayNumber) {
+        var givenDay = dayjs.unix(this.dt).utc().add(timezone, "second");
+
+        if (givenDay.isSame(firstDay, "day")) {
           firstDayForecast.push(this);
+        } else if (givenDay.isSame(secondDay, "day")) {
+          secondDayForecast.push(this);
+        } else if (givenDay.isSame(thirdDay, "day")) {
+          thirdDayForecast.push(this);
+        } else if (givenDay.isSame(fourthDay, "day")) {
+          fourthDayForecast.push(this);
+        } else if (givenDay.isSame(fifthDay, "day")) {
+          fifthDayForecast.push(this);
         }
       });
-      console.log();
+      console.log(firstDayForecast);
+      console.log(secondDayForecast);
+      console.log(fifthDayForecast);
 
       // Remove the selection of results under search button.
       $(".removable").remove();
@@ -126,7 +142,7 @@ function getWeather(event) {
 function displayWeather(data) {
   // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
-  // Display the date
+  // Display the date in a Monday, March 30 format.
   var day1 = dayjs.unix(data.list[0].dt).format("dddd, MMMM D");
   $("#day1-date").text(day1);
   // Display the icon of the weather
