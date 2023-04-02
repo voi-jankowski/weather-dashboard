@@ -267,6 +267,21 @@ function displayWeather(data) {
     humidEl.text(" " + humidAverage + "%");
   }
 
+  // Create function for getting the wind speen on the given day
+  function getWindSpeed(dayForecast, windEl) {
+    var windSpeeds = [];
+    $.each(dayForecast, function () {
+      var wind = Math.floor(this.wind.speed);
+      windSpeeds.push(wind);
+    });
+
+    // Get the highest windspeed forecast for the day
+    var highWind = Math.max(...windSpeeds);
+
+    // Display the wind
+    windEl.text(" " + highWind + " m/s");
+  }
+
   // DISPLAYING DATA FOR FIRST DAY
   // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
@@ -289,18 +304,10 @@ function displayWeather(data) {
   // Display humidity
   var day1Humid = $("#day1-humid");
   getHumidity(firstDayForecast, day1Humid);
+
   // Display wind speed
-  var windSpeeds = [];
-  $.each(firstDayForecast, function () {
-    var wind = Math.floor(this.wind.speed);
-    windSpeeds.push(wind);
-  });
-
-  // Get the highest windspeed forecast for the day
-  var highWind = Math.max(...windSpeeds);
-
-  // Display the wind
-  $("#day1-wind").text(" " + highWind + " m/s");
+  var day1Wind = $("#day1-wind");
+  getWindSpeed(firstDayForecast, day1Wind);
 
   // Display sunrise and sunset times
   // translate the unix time into the local time for the city
