@@ -2,6 +2,14 @@
 // Variables for DOM elements
 var recentSearches = $("#recent-searches");
 
+// DAYJS GLOBAL
+// dayjs plugins
+dayjs.extend(window.dayjs_plugin_utc);
+dayjs.extend(window.dayjs_plugin_timezone);
+// dayjs variables
+let printFormat = "DD/MM/YYYY H:mm";
+let hourFormat = "H:mm";
+
 // Button toggle to switch between celcius and farenheit.
 var weatherUnits = "metric";
 $(".btn-toggle").click(function () {
@@ -15,14 +23,6 @@ $(".btn-toggle").click(function () {
   }
   console.log(weatherUnits);
 });
-
-// Retrieve the current data and time.
-var today = dayjs(1680373924 * 1000);
-console.log(today.format("MMM D, YYYY"));
-dayjs.extend(window.dayjs_plugin_utc);
-dayjs.extend(window.dayjs_plugin_timezone);
-let printFormat = "DD/MM/YYYY H:mm";
-let hourFormat = "H:mm";
 
 // Retrieve coordinates for a city name.
 function getLocation() {
@@ -100,6 +100,22 @@ function getWeather(event) {
       var city = data.city.name;
       saveCity(lat, lon, city);
       displayWeather(data);
+      // Separate forecasts for different days
+      var forecast = data.list;
+      var firstDayForecast = [data.list[0]];
+      var secondDayForecast = [];
+      var thirdDayForecast = [];
+      var fourthDayForecast = [];
+      var fifthDayForecast = [];
+      var firstDayNumber = dayjs.unix(data.list[0].dt).format("DD");
+
+      $.each(data.list, function () {
+        var dayNumber = dayjs.unix(this.dt).format("DD");
+        if (dayNumber === firstDayNumber) {
+          firstDayForecast.push(this);
+        }
+      });
+      console.log();
 
       // Remove the selection of results under search button.
       $(".removable").remove();
@@ -108,7 +124,6 @@ function getWeather(event) {
 
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
 function displayWeather(data) {
-  console.log(data);
   // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
   // Display the date
@@ -119,10 +134,9 @@ function displayWeather(data) {
   // Display humidity
   // Display wind speen
   // Display sunrise and sunset times
-  console.log(data.city.sunrise);
-  console.log(data.city.sunset);
+
   var timezone = data.city.timezone;
-  console.log(timezone);
+
   var sunrise = dayjs(data.city.sunrise * 1000)
     .utc()
     .add(timezone, "second")
@@ -131,8 +145,6 @@ function displayWeather(data) {
     .utc()
     .add(timezone, "second")
     .format(hourFormat);
-  console.log(sunrise);
-  console.log(sunset);
 
   $("#sunrise").text(sunrise);
   $("#sunset").text(sunset);
@@ -184,7 +196,6 @@ function saveCity(lat, lon, city) {
 function renderSearches() {
   // Retrieve the recent searches
   var savedSearch = JSON.parse(localStorage.getItem("savedSearch"));
-  console.log(savedSearch);
   // Check if data is returned, if not exit out of the function
   if (savedSearch !== null) {
     $.each(savedSearch, function () {
