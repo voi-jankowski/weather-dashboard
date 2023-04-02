@@ -161,10 +161,18 @@ function displayWeather(data) {
   // collect the temps from the first day
   var temperatures = [];
   $.each(firstDayForecast, function () {
-    var temp = this.main.temp;
+    console.log(this.main.temp);
+    var temp = Math.floor(this.main.temp);
+    console.log(typeof "temp");
     temperatures.push(temp);
   });
   console.log(temperatures);
+  var highTemp = Math.max(temperatures);
+  var lowTemp = Math.min(temperatures);
+  console.log(highTemp);
+  console.log(lowTemp);
+  // display them
+  $("#day1-temp").text("Temp " + highTemp + "° / " + lowTemp + "°");
   // Display humidity
   // collect the humidity from the first day
   var humidity = [];
