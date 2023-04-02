@@ -150,9 +150,37 @@ function displayWeather(data) {
     .format("dddd, MMMM D");
   $("#day1-date").text(day1);
   // Display the icon of the weather
+  // collect the weather ids from the first day in an array.
+  var weather = [];
+  $.each(firstDayForecast, function () {
+    var weatherId = this.weather[0].id;
+    weather.push(weatherId);
+  });
+  console.log(weather);
   // Display min and max temp
+  // collect the temps from the first day
+  var temperatures = [];
+  $.each(firstDayForecast, function () {
+    var temp = this.main.temp;
+    temperatures.push(temp);
+  });
+  console.log(temperatures);
   // Display humidity
-  // Display wind speen
+  // collect the humidity from the first day
+  var humidity = [];
+  $.each(firstDayForecast, function () {
+    var humid = this.main.humidity;
+    humidity.push(humid);
+  });
+
+  // Display wind speed
+  var windSpeeds = [];
+  $.each(firstDayForecast, function () {
+    var wind = this.wind.speed;
+    windSpeeds.push(wind);
+  });
+  console.log(windSpeeds);
+
   // Display sunrise and sunset times
 
   var sunrise = dayjs(data.city.sunrise * 1000)
