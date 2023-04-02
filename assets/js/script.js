@@ -124,8 +124,8 @@ function displayWeather(data) {
   // Grouping the data into separate days objects
   $.each(data.list, function () {
     var givenDay = dayjs.unix(this.dt).utc().add(timezone, "second");
-    console.log(givenDay.format(printFormat));
-    console.log(givenDay.isSame(firstDay, "day"));
+    // console.log(givenDay.format(printFormat));
+    // console.log(givenDay.isSame(firstDay, "day"));
     if (givenDay.isSame(firstDay, "day")) {
       firstDayForecast.push(this);
     } else if (givenDay.isSame(secondDay, "day")) {
@@ -138,14 +138,14 @@ function displayWeather(data) {
       fifthDayForecast.push(this);
     }
   });
-  console.log(firstDayForecast);
+  // console.log(firstDayForecast);
   console.log(secondDayForecast);
   console.log(thirdDayForecast);
   console.log(fourthDayForecast);
   console.log(fifthDayForecast);
 
   // FUNCTIONS FOR SELECTING WEATHER DATA TO DISPLAY
-  // function for selecting the weather icon for a given day
+  // Function for selecting the weather icon for a given day
   function getWeatherIcon(dayForecast, iconImg) {
     // collect the weather icon code from the given day in an array.
     var weather = [];
@@ -224,6 +224,26 @@ function displayWeather(data) {
     }
   }
 
+  // Function for getting the min and max tem for the given day
+  function getTemeratures(dayForecast, tempEl) {
+    // collect the temps from the given day
+    var temperatures = [];
+    $.each(dayForecast, function () {
+      // Convert the values into integers
+      var temp = Math.floor(this.main.temp);
+      console.log(temp);
+      temperatures.push(temp);
+    });
+    console.log(temperatures);
+
+    // Get the highest and lowest temepatures from the temperatures array
+    var highTemp = Math.max(...temperatures);
+    var lowTemp = Math.min(...temperatures);
+
+    // display them
+    tempEl.text("Temp " + highTemp + "° / " + lowTemp + "°");
+  }
+
   // DISPLAYING DATA FOR FIRST DAY
   // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
@@ -240,28 +260,9 @@ function displayWeather(data) {
   getWeatherIcon(firstDayForecast, day1Icon);
 
   // Display min and max temp
-  // collect the temps from the first day
-  var temperatures = [];
-  $.each(firstDayForecast, function () {
-    // Converting the values into integers
-    var temp = Math.floor(this.main.temp);
-    console.log(temp);
-    temperatures.push(temp);
-  });
-  console.log(temperatures);
-  // // Filter out any non-numeric values from the temperatures array
-  // var numericTemperatures = temperatures.filter(
-  //   (value) => typeof value === "number"
-  // );
-  // // Get the highest temperature from the numericTemperatures array
-  // var highTemp =
-  //   numericTemperatures.length > 0 ? Math.max(...numericTemperatures) : null;
-  // Get the highest and lowest temepatures from the temperatures array
-  var highTemp = Math.max(...temperatures);
-  var lowTemp = Math.min(...temperatures);
+  var day1Temp = $("#day1-temp");
+  getTemeratures(fifthDayForecast, day1Temp);
 
-  // display them
-  $("#day1-temp").text("Temp " + highTemp + "° / " + lowTemp + "°");
   // Display humidity
   // collect the humidity from the first day array
   var humidity = [];
