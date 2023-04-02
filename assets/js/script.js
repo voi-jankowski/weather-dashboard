@@ -124,7 +124,8 @@ function displayWeather(data) {
   // Grouping the data into separate days objects
   $.each(data.list, function () {
     var givenDay = dayjs.unix(this.dt).utc().add(timezone, "second");
-
+    console.log(givenDay.format(printFormat));
+    console.log(givenDay.isSame(firstDay, "day"));
     if (givenDay.isSame(firstDay, "day")) {
       firstDayForecast.push(this);
     } else if (givenDay.isSame(secondDay, "day")) {
@@ -137,14 +138,14 @@ function displayWeather(data) {
       fifthDayForecast.push(this);
     }
   });
-
+  console.log(firstDayForecast);
   console.log(secondDayForecast);
   console.log(thirdDayForecast);
   console.log(fourthDayForecast);
   console.log(fifthDayForecast);
 
   // FUNCTIONS FOR SELECTING WEATHER DATA TO DISPLAY
-
+  // function for selecting the weather icon for a given day
   function getWeatherIcon(dayForecast, iconImg) {
     // collect the weather icon code from the given day in an array.
     var weather = [];
@@ -182,7 +183,6 @@ function displayWeather(data) {
       return mostFrequent;
     })(weather);
     console.log(weather);
-    console.log(mostFrequent);
     // Final selection of the icon to display: if it storms or snows at any point of the day, display that icon, otherwise display most frequent icon.
     var weatherIcon;
     if (weather.includes("13d") && !weather.includes("11d")) {
@@ -192,36 +192,39 @@ function displayWeather(data) {
     } else {
       weatherIcon = mostFrequent;
     }
+    console.log(weatherIcon);
+
     // Display the icon
     if (weatherIcon.includes("01")) {
-      $(iconImg).attr("src", "./assets/images/01-clear-icon.png");
+      iconImg.attr("src", "./assets/images/01-clear-icon.png");
     }
     if (weatherIcon.includes("02")) {
-      $(iconImg).attr("src", "./assets/images/02-few-clouds-icon.png");
+      iconImg.attr("src", "./assets/images/02-few-clouds-icon.png");
     }
     if (weatherIcon.includes("03")) {
-      $(iconImg).attr("src", "./assets/images/03-scattered-clouds-icon.png");
+      iconImg.attr("src", "./assets/images/03-scattered-clouds-icon.png");
     }
     if (weatherIcon.includes("04")) {
-      $(iconImg).attr("src", "./assets/images/04-broken-clouds-icon.png");
+      iconImg.attr("src", "./assets/images/04-broken-clouds-icon.png");
     }
     if (weatherIcon.includes("09")) {
-      $(iconImg).attr("src", "./assets/images/09-shower-rain-icon.png");
+      iconImg.attr("src", "./assets/images/09-shower-rain-icon.png");
     }
     if (weatherIcon.includes("10")) {
-      $(iconImg).attr("src", "./assets/images/10-rain-icon.png");
+      iconImg.attr("src", "./assets/images/10-rain-icon.png");
     }
     if (weatherIcon.includes("11")) {
-      $(iconImg).attr("src", "./assets/images/11-thunderstorm-icon.png");
+      iconImg.attr("src", "./assets/images/11-thunderstorm-icon.png");
     }
     if (weatherIcon.includes("13")) {
-      $(iconImg).attr("src", "./assets/images/13-snow-icon.png");
+      iconImg.attr("src", "./assets/images/13-snow-icon.png");
     }
     if (weatherIcon.includes("50")) {
-      $(iconImg).attr("src", "./assets/images/50-mist-icon.png");
+      iconImg.attr("src", "./assets/images/50-mist-icon.png");
     }
   }
 
+  // DISPLAYING DATA FOR FIRST DAY
   // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
   // Display the date in a Monday, March 30 format.
@@ -233,17 +236,19 @@ function displayWeather(data) {
   $("#day1-date").text(day1);
 
   // Display the icon of the weather
-  var day1Icon = $("day1-icon");
+  var day1Icon = $("#day1-icon");
   getWeatherIcon(firstDayForecast, day1Icon);
+
   // Display min and max temp
   // collect the temps from the first day
   var temperatures = [];
   $.each(firstDayForecast, function () {
     // Converting the values into integers
     var temp = Math.floor(this.main.temp);
+    console.log(temp);
     temperatures.push(temp);
   });
-
+  console.log(temperatures);
   // // Filter out any non-numeric values from the temperatures array
   // var numericTemperatures = temperatures.filter(
   //   (value) => typeof value === "number"
