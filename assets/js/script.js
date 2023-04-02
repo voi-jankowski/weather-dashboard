@@ -106,7 +106,7 @@ function getWeather(event) {
 
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
 function displayWeather(data) {
-  // Separate forecasts for different days
+  // SEPARATE FORECAST FOR DIFFERENT DAYS
   // Setting variables and object
   var timezone = data.city.timezone;
   var firstDayForecast = [];
@@ -114,6 +114,7 @@ function displayWeather(data) {
   var thirdDayForecast = [];
   var fourthDayForecast = [];
   var fifthDayForecast = [];
+  // Get the dates for each day of the forecast
   var firstDay = dayjs.unix(data.list[0].dt).utc().add(timezone, "second");
   console.log(firstDay.format(printFormat));
   var secondDay = dayjs.unix(data.list[8].dt).utc().add(timezone, "second");
@@ -136,9 +137,90 @@ function displayWeather(data) {
       fifthDayForecast.push(this);
     }
   });
-  console.log(firstDayForecast);
+
   console.log(secondDayForecast);
+  console.log(thirdDayForecast);
+  console.log(fourthDayForecast);
   console.log(fifthDayForecast);
+
+  // FUNCTIONS FOR SELECTING WEATHER DATA TO DISPLAY
+
+  function getWeatherIcon(dayForecast, iconImg) {
+    // collect the weather icon code from the given day in an array.
+    var weather = [];
+    // Collect only day weather icons from the forecast
+    $.each(dayForecast, function () {
+      var weatherId = this.weather[0].icon;
+      if (weatherId.includes("d")) {
+        weather.push(weatherId);
+      }
+    });
+    // If no day weather icons, collect the last evening icon
+    if (weather.length === 0) {
+      var eveningForecast = dayForecast.pop();
+      var weatherId = eveningForecast.weather[0].icon;
+      weather.push(weatherId);
+    }
+    // Find the most frequent icon in weather array. Solution sourced at https://amjustsam.medium.com/how-to-find-most-frequent-item-of-an-array-12015df68c65
+    var counts = {};
+    var compare = 0;
+    var mostFrequent;
+    (function (weather) {
+      for (var i = 0; i < weather.length; i++) {
+        var word = weather[i];
+
+        if (counts[word] === undefined) {
+          counts[word] = 1;
+        } else {
+          counts[word] += 1;
+        }
+        if (counts[word] > compare) {
+          compare = counts[word];
+          mostFrequent = weather[i];
+        }
+      }
+      return mostFrequent;
+    })(weather);
+    console.log(weather);
+    console.log(mostFrequent);
+    // Final selection of the icon to display: if it storms or snows at any point of the day, display that icon, otherwise display most frequent icon.
+    var weatherIcon;
+    if (weather.includes("13d") && !weather.includes("11d")) {
+      weatherIcon = "13d";
+    } else if (weather.includes("11d")) {
+      weatherIcon = "11d";
+    } else {
+      weatherIcon = mostFrequent;
+    }
+    // Display the icon
+    if (weatherIcon.includes("01")) {
+      $(iconImg).attr("src", "./assets/images/01-clear-icon.png");
+    }
+    if (weatherIcon.includes("02")) {
+      $(iconImg).attr("src", "./assets/images/02-few-clouds-icon.png");
+    }
+    if (weatherIcon.includes("03")) {
+      $(iconImg).attr("src", "./assets/images/03-scattered-clouds-icon.png");
+    }
+    if (weatherIcon.includes("04")) {
+      $(iconImg).attr("src", "./assets/images/04-broken-clouds-icon.png");
+    }
+    if (weatherIcon.includes("09")) {
+      $(iconImg).attr("src", "./assets/images/09-shower-rain-icon.png");
+    }
+    if (weatherIcon.includes("10")) {
+      $(iconImg).attr("src", "./assets/images/10-rain-icon.png");
+    }
+    if (weatherIcon.includes("11")) {
+      $(iconImg).attr("src", "./assets/images/11-thunderstorm-icon.png");
+    }
+    if (weatherIcon.includes("13")) {
+      $(iconImg).attr("src", "./assets/images/13-snow-icon.png");
+    }
+    if (weatherIcon.includes("50")) {
+      $(iconImg).attr("src", "./assets/images/50-mist-icon.png");
+    }
+  }
 
   // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
@@ -149,14 +231,10 @@ function displayWeather(data) {
     .add(timezone, "second")
     .format("dddd, MMMM D");
   $("#day1-date").text(day1);
+
   // Display the icon of the weather
-  // collect the weather ids from the first day in an array.
-  var weather = [];
-  $.each(firstDayForecast, function () {
-    var weatherId = this.weather[0].id;
-    weather.push(weatherId);
-  });
-  console.log(weather);
+  var day1Icon = $("day1-icon");
+  getWeatherIcon(firstDayForecast, day1Icon);
   // Display min and max temp
   // collect the temps from the first day
   var temperatures = [];
@@ -195,7 +273,7 @@ function displayWeather(data) {
     total += this;
     count++;
   });
-  console.log(total / count);
+
   var humidAverage = total / count;
   $("#day1-humid").text(" " + humidAverage + "%");
   // Display wind speed
@@ -204,7 +282,7 @@ function displayWeather(data) {
     var wind = Math.floor(this.wind.speed);
     windSpeeds.push(wind);
   });
-  console.log(windSpeeds);
+
   // Get the highest windspeed forecast for the day
   var highWind = Math.max(...windSpeeds);
 
