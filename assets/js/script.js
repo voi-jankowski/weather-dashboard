@@ -231,10 +231,9 @@ function displayWeather(data) {
     $.each(dayForecast, function () {
       // Convert the values into integers
       var temp = Math.floor(this.main.temp);
-      console.log(temp);
       temperatures.push(temp);
     });
-    console.log(temperatures);
+    // console.log(temperatures);
 
     // Get the highest and lowest temepatures from the temperatures array
     var highTemp = Math.max(...temperatures);
@@ -242,6 +241,30 @@ function displayWeather(data) {
 
     // display them
     tempEl.text("Temp " + highTemp + "° / " + lowTemp + "°");
+  }
+
+  // Function for getting the humidity on the given day
+  function getHumidity(dayForecast, humidEl) {
+    // collect the humidity data from the given day array
+    var humidity = [];
+    $.each(dayForecast, function () {
+      var humid = Math.floor(this.main.humidity);
+      humidity.push(humid);
+    });
+    console.log(humidity);
+    // Calulate average humidity for the day
+    var total = 0;
+    var count = 0;
+
+    $.each(humidity, function () {
+      total += this;
+      count++;
+    });
+    // Get the integer of calculated average
+    var humidAverage = Math.trunc(total / count);
+
+    // Display the average
+    humidEl.text(" " + humidAverage + "%");
   }
 
   // DISPLAYING DATA FOR FIRST DAY
@@ -261,27 +284,11 @@ function displayWeather(data) {
 
   // Display min and max temp
   var day1Temp = $("#day1-temp");
-  getTemeratures(fifthDayForecast, day1Temp);
+  getTemeratures(firstDayForecast, day1Temp);
 
   // Display humidity
-  // collect the humidity from the first day array
-  var humidity = [];
-  $.each(firstDayForecast, function () {
-    var humid = Math.floor(this.main.humidity);
-    humidity.push(humid);
-  });
-
-  // Calulate average humidity for the day
-  var total = 0;
-  var count = 0;
-
-  $.each(humidity, function () {
-    total += this;
-    count++;
-  });
-
-  var humidAverage = total / count;
-  $("#day1-humid").text(" " + humidAverage + "%");
+  var day1Humid = $("#day1-humid");
+  getHumidity(firstDayForecast, day1Humid);
   // Display wind speed
   var windSpeeds = [];
   $.each(firstDayForecast, function () {
