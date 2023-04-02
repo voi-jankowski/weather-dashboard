@@ -161,36 +161,58 @@ function displayWeather(data) {
   // collect the temps from the first day
   var temperatures = [];
   $.each(firstDayForecast, function () {
-    console.log(this.main.temp);
+    // Converting the values into integers
     var temp = Math.floor(this.main.temp);
-    console.log(typeof "temp");
     temperatures.push(temp);
   });
-  console.log(temperatures);
-  var highTemp = Math.max(temperatures);
-  var lowTemp = Math.min(temperatures);
-  console.log(highTemp);
-  console.log(lowTemp);
+
+  // // Filter out any non-numeric values from the temperatures array
+  // var numericTemperatures = temperatures.filter(
+  //   (value) => typeof value === "number"
+  // );
+  // // Get the highest temperature from the numericTemperatures array
+  // var highTemp =
+  //   numericTemperatures.length > 0 ? Math.max(...numericTemperatures) : null;
+  // Get the highest and lowest temepatures from the temperatures array
+  var highTemp = Math.max(...temperatures);
+  var lowTemp = Math.min(...temperatures);
+
   // display them
   $("#day1-temp").text("Temp " + highTemp + "° / " + lowTemp + "°");
   // Display humidity
-  // collect the humidity from the first day
+  // collect the humidity from the first day array
   var humidity = [];
   $.each(firstDayForecast, function () {
-    var humid = this.main.humidity;
+    var humid = Math.floor(this.main.humidity);
     humidity.push(humid);
   });
 
+  // Calulate average humidity for the day
+  var total = 0;
+  var count = 0;
+
+  $.each(humidity, function () {
+    total += this;
+    count++;
+  });
+  console.log(total / count);
+  var humidAverage = total / count;
+  $("#day1-humid").text(" " + humidAverage + "%");
   // Display wind speed
   var windSpeeds = [];
   $.each(firstDayForecast, function () {
-    var wind = this.wind.speed;
+    var wind = Math.floor(this.wind.speed);
     windSpeeds.push(wind);
   });
   console.log(windSpeeds);
+  // Get the highest windspeed forecast for the day
+  var highWind = Math.max(...windSpeeds);
+
+  // Display the wind
+  $("#day1-wind").text(" " + highWind + " m/s");
 
   // Display sunrise and sunset times
-
+  // translate the unix time into the local time for the city
   var sunrise = dayjs(data.city.sunrise * 1000)
     .utc()
     .add(timezone, "second")
@@ -199,7 +221,7 @@ function displayWeather(data) {
     .utc()
     .add(timezone, "second")
     .format(hourFormat);
-
+  // Display results
   $("#sunrise").text(sunrise);
   $("#sunset").text(sunset);
 }
