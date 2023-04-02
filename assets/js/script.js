@@ -98,40 +98,6 @@ function getWeather(event) {
       var city = data.city.name;
       saveCity(lat, lon, city);
       displayWeather(data);
-      // Separate forecasts for different days
-
-      var timezone = data.city.timezone;
-      var firstDayForecast = [];
-      var secondDayForecast = [];
-      var thirdDayForecast = [];
-      var fourthDayForecast = [];
-      var fifthDayForecast = [];
-      var firstDay = dayjs(data.list[0].dt_txt).utc().add(timezone, "second");
-      console.log(firstDay);
-      var secondDay = dayjs.unix(data.list[8].dt).utc().add(timezone, "second");
-      var thirdDay = dayjs.unix(data.list[16].dt).utc().add(timezone, "second");
-      var fourthDay = dayjs.unix(data.list[24].dt).utc().add(timezone, "second");
-      var fifthDay = dayjs.unix(data.list[32].dt).utc().add(timezone, "second");
-      // var firstDayNumber = Number(firstDayNumberString);
-
-      $.each(data.list, function () {
-        var givenDay = dayjs.unix(this.dt).utc().add(timezone, "second");
-
-        if (givenDay.isSame(firstDay, "day")) {
-          firstDayForecast.push(this);
-        } else if (givenDay.isSame(secondDay, "day")) {
-          secondDayForecast.push(this);
-        } else if (givenDay.isSame(thirdDay, "day")) {
-          thirdDayForecast.push(this);
-        } else if (givenDay.isSame(fourthDay, "day")) {
-          fourthDayForecast.push(this);
-        } else if (givenDay.isSame(fifthDay, "day")) {
-          fifthDayForecast.push(this);
-        }
-      });
-      console.log(firstDayForecast);
-      console.log(secondDayForecast);
-      console.log(fifthDayForecast);
 
       // Remove the selection of results under search button.
       $(".removable").remove();
@@ -140,18 +106,54 @@ function getWeather(event) {
 
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
 function displayWeather(data) {
+  // Separate forecasts for different days
+  // Setting variables and object
+  var timezone = data.city.timezone;
+  var firstDayForecast = [];
+  var secondDayForecast = [];
+  var thirdDayForecast = [];
+  var fourthDayForecast = [];
+  var fifthDayForecast = [];
+  var firstDay = dayjs.unix(data.list[0].dt).utc().add(timezone, "second");
+  console.log(firstDay.format(printFormat));
+  var secondDay = dayjs.unix(data.list[8].dt).utc().add(timezone, "second");
+  var thirdDay = dayjs.unix(data.list[16].dt).utc().add(timezone, "second");
+  var fourthDay = dayjs.unix(data.list[24].dt).utc().add(timezone, "second");
+  var fifthDay = dayjs.unix(data.list[32].dt).utc().add(timezone, "second");
+  // Grouping the data into separate days objects
+  $.each(data.list, function () {
+    var givenDay = dayjs.unix(this.dt).utc().add(timezone, "second");
+
+    if (givenDay.isSame(firstDay, "day")) {
+      firstDayForecast.push(this);
+    } else if (givenDay.isSame(secondDay, "day")) {
+      secondDayForecast.push(this);
+    } else if (givenDay.isSame(thirdDay, "day")) {
+      thirdDayForecast.push(this);
+    } else if (givenDay.isSame(fourthDay, "day")) {
+      fourthDayForecast.push(this);
+    } else if (givenDay.isSame(fifthDay, "day")) {
+      fifthDayForecast.push(this);
+    }
+  });
+  console.log(firstDayForecast);
+  console.log(secondDayForecast);
+  console.log(fifthDayForecast);
+
   // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
   // Display the date in a Monday, March 30 format.
-  var day1 = dayjs.unix(data.list[0].dt).format("dddd, MMMM D");
+  var day1 = dayjs
+    .unix(data.list[0].dt)
+    .utc()
+    .add(timezone, "second")
+    .format("dddd, MMMM D");
   $("#day1-date").text(day1);
   // Display the icon of the weather
   // Display min and max temp
   // Display humidity
   // Display wind speen
   // Display sunrise and sunset times
-
-  var timezone = data.city.timezone;
 
   var sunrise = dayjs(data.city.sunrise * 1000)
     .utc()
