@@ -248,7 +248,7 @@ function renderSearches() {
       var div1 = $("<div>")
         .addClass("card recent-card")
 
-        .css({ width: "10rem", height: "10rem" });
+        .css({ width: "15rem", height: "5rem" });
       var div2 = $("<div>")
         .addClass("card-body text-center d-flex align-items-center")
         .attr({
@@ -261,6 +261,7 @@ function renderSearches() {
           "data-lat": this.lat,
           "data-lon": this.lon,
         })
+        .css({ margin: "0 auto" })
         .text(this.city);
 
       div2.append(h3);

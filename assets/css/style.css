@@ -27,6 +27,7 @@ h1 {
 
 h3 {
   font-size: 1.5rem;
+  
 }
 
 .col-2 {
@@ -57,3 +58,4 @@ h3 {
 .recent-card:active {
   scale: 1.1;
 }
+
