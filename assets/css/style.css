@@ -27,7 +27,6 @@ h1 {
 
 h3 {
   font-size: 1.5rem;
-  
 }
 
 .col-2 {
@@ -53,7 +52,6 @@ h3 {
 
 .recent-card:hover {
   cursor: pointer;
- 
 }
 
 .recent-card:active {
@@ -65,5 +63,7 @@ h3 {
 }
 
 #forecast-area {
-  display: none;
+
+  visibility: hidden;
+
 }
