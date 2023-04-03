@@ -26,6 +26,8 @@ $(".btn-toggle").click(function () {
 
 // Retrieve coordinates for a city name.
 function getLocation() {
+  // Clear possible previous display of search options
+  $(".removable").remove();
   var searchPhrase = $("#search-phrase").val();
   console.log(searchPhrase);
 
@@ -40,27 +42,35 @@ function getLocation() {
     })
     .then(function (data) {
       console.log(data);
-      //   Creating display of results for user to choose desired location.
-      var createInstruction = $("<h3></h3>").text(
-        "Select the location from below:"
-      );
-      $(createInstruction).addClass("removable");
-      $("#search-box").append(createInstruction);
-      var createList = $("<div></div>").addClass(
-        "list-group location-searches removable"
-      );
-      $("#search-box").append(createList);
-      // Display selection of results as selectable buttons with data attributes with coordinates of the location.
-      $.each(data, function () {
-        var createChoiceBtns = $("<button></button>")
-          .attr("type", "button")
-          .addClass("list-group-item btn btn-outline-primary removable")
-          .attr("data-lat", this.lat.toFixed(2))
-          .attr("data-lon", this.lon.toFixed(2))
-          .attr("onclick", "getWeather(event);")
-          .text(this.name + " , " + this.state + " , " + this.country);
-        $(".location-searches").append(createChoiceBtns);
-      });
+      if ($.isEmptyObject(data)) {
+        var createWarning = $("<h5></h5>")
+          .addClass("removable")
+          .css({ "padding-top": "2rem" })
+          .text("No results for that search. Try a different name!");
+        $("#search-box").append(createWarning);
+      } else {
+        //   Creating display of results for user to choose desired location.
+        var createInstruction = $("<h3></h3>").text(
+          "Select the location from below:"
+        );
+        $(createInstruction).addClass("removable");
+        $("#search-box").append(createInstruction);
+        var createList = $("<div></div>").addClass(
+          "list-group location-searches removable"
+        );
+        $("#search-box").append(createList);
+        // Display selection of results as selectable buttons with data attributes with coordinates of the location.
+        $.each(data, function () {
+          var createChoiceBtns = $("<button></button>")
+            .attr("type", "button")
+            .addClass("list-group-item btn btn-outline-primary removable")
+            .attr("data-lat", this.lat.toFixed(2))
+            .attr("data-lon", this.lon.toFixed(2))
+            .attr("onclick", "getWeather(event);")
+            .text(this.name + " , " + this.state + " , " + this.country);
+          $(".location-searches").append(createChoiceBtns);
+        });
+      }
     });
 }
 // Retrieve the weather conditions for the coordinates.
@@ -99,8 +109,9 @@ function getWeather(event) {
       saveCity(lat, lon, city);
       displayWeather(data);
       renderSearches();
-      // Remove the selection of results under search button.
+      // Remove the selection of results under search button and remove the search phrase from search box.
       $(".removable").remove();
+      $(".search-phrase").val("");
     });
 }
 
