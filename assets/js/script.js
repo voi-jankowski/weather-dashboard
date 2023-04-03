@@ -500,7 +500,9 @@ function renderSearches() {
 }
 
 // Get the location of the user to get their coordinates
+
 function getLocalCoordinates() {
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(getPosition);
     $("#forecast-area").css({ visibility: "visible" });
