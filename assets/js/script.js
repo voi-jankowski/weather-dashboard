@@ -42,6 +42,7 @@ function getLocation() {
     })
     .then(function (data) {
       console.log(data);
+      // If there are no results for that search phrase display no result warning.
       if ($.isEmptyObject(data)) {
         var createWarning = $("<h5></h5>")
           .addClass("removable")
@@ -122,6 +123,8 @@ function getWeather(lat, lon) {
 
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
 function displayWeather(data) {
+  // Display the cards in case they were not visible on loading the page.
+  $("#forecast-area").css({ display: "block" });
   // SEPARATE FORECAST FOR DIFFERENT DAYS
   // Setting variables and object
   var timezone = data.city.timezone;
@@ -420,8 +423,6 @@ function displayWeather(data) {
   getWindSpeed(fifthDayForecast, day5Wind);
 }
 
-// Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast
-
 // Save the search in the local storage.
 function saveCity(lat, lon, city) {
   var newSearch = {
@@ -498,8 +499,7 @@ function renderSearches() {
   }
 }
 
-function getLocalWeather() {}
-
+// Get the location of the user to get their coordinates
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(getPosition);
@@ -507,7 +507,7 @@ function getLocation() {
     $("#forecast-area").css({ display: "none" });
   }
 }
-
+// Save the local coorinates as parameters for getWeather to display the local weather upon loading the page.
 function getPosition(position) {
   var localLat = position.coords.latitude.toFixed(2);
   var localLon = position.coords.longitude.toFixed(2);
