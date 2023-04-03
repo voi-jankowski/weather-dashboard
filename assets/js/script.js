@@ -240,7 +240,7 @@ function displayWeather(data) {
     var lowTemp = Math.min(...temperatures);
 
     // display them
-    tempEl.text("Temp " + highTemp + "° / " + lowTemp + "°");
+    tempEl.text(" " + highTemp + "° / " + lowTemp + "°");
   }
 
   // Function for getting the humidity on the given day
@@ -285,12 +285,8 @@ function displayWeather(data) {
   // DISPLAYING DATA FOR FIRST DAY
   // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
-  // Display the date in a Monday, March 30 format.
-  var day1 = dayjs
-    .unix(data.list[0].dt)
-    .utc()
-    .add(timezone, "second")
-    .format("dddd, MMMM D");
+  // Display the date in a 'Monday, March 30' format.
+  var day1 = firstDay.format("dddd, MMMM D");
   $("#day1-date").text(day1);
 
   // Display the icon of the weather
@@ -322,6 +318,32 @@ function displayWeather(data) {
   // Display results
   $("#sunrise").text(sunrise);
   $("#sunset").text(sunset);
+
+  // DISPLAYING DATA FOR SECOND DAY
+  // Display the day of the week
+  var day2 = secondDay.format("dddd");
+  $("#day2-date").text(day2);
+
+  // Display the icon of the weather
+  var day2Icon = $("#day2-icon");
+  getWeatherIcon(secondDayForecast, day2Icon);
+
+  // Display min and max temp
+  var day2Temp = $("#day2-temp");
+  getTemeratures(secondDayForecast, day2Temp);
+
+  // Display humidity
+  var day2Humid = $("#day2-humid");
+  getHumidity(secondDayForecast, day2Humid);
+
+  // Display wind speed
+  var day2Wind = $("#day2-wind");
+  getWindSpeed(secondDayForecast, day2Wind);
+  // DISPLAYING DATA FOR THIRD DAY
+
+  // DISPLAYING DATA FOR FOURTH DAY
+
+  // DISPLAYING DATA FOR FIFTH DAY
 }
 
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast

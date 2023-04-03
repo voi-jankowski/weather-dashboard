@@ -59,3 +59,7 @@ h3 {
   scale: 1.1;
 }
 
+.list-group-item {
+  padding-left: 0;
+}
+
