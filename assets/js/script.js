@@ -124,7 +124,7 @@ function getWeather(lat, lon) {
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
 function displayWeather(data) {
   // Display the cards in case they were not visible on loading the page.
-  $("#forecast-area").css({ display: "block" });
+  $("#forecast-area").css({ visibility: "visible" });
   // SEPARATE FORECAST FOR DIFFERENT DAYS
   // Setting variables and object
   var timezone = data.city.timezone;
@@ -503,8 +503,7 @@ function renderSearches() {
 function getLocalCoordinates() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(getPosition);
-  } else {
-    $("#forecast-area").css({ display: "none" });
+    $("#forecast-area").css({ visibility: "visible" });
   }
 }
 // Save the local coorinates as parameters for getWeather to display the local weather upon loading the page.
