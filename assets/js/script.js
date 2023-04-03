@@ -339,11 +339,69 @@ function displayWeather(data) {
   // Display wind speed
   var day2Wind = $("#day2-wind");
   getWindSpeed(secondDayForecast, day2Wind);
+
   // DISPLAYING DATA FOR THIRD DAY
+  // Display the day of the week
+  var day3 = thirdDay.format("dddd");
+  $("#day3-date").text(day3);
+
+  // Display the icon of the weather
+  var day3Icon = $("#day3-icon");
+  getWeatherIcon(thirdDayForecast, day3Icon);
+
+  // Display min and max temp
+  var day3Temp = $("#day3-temp");
+  getTemeratures(thirdDayForecast, day3Temp);
+
+  // Display humidity
+  var day3Humid = $("#day3-humid");
+  getHumidity(thirdDayForecast, day3Humid);
+
+  // Display wind speed
+  var day3Wind = $("#day3-wind");
+  getWindSpeed(thirdDayForecast, day3Wind);
 
   // DISPLAYING DATA FOR FOURTH DAY
+  // Display the day of the week
+  var day4 = fourthDay.format("dddd");
+  $("#day4-date").text(day4);
+
+  // Display the icon of the weather
+  var day4Icon = $("#day4-icon");
+  getWeatherIcon(fourthDayForecast, day4Icon);
+
+  // Display min and max temp
+  var day4Temp = $("#day4-temp");
+  getTemeratures(fourthDayForecast, day4Temp);
+
+  // Display humidity
+  var day4Humid = $("#day4-humid");
+  getHumidity(fourthDayForecast, day4Humid);
+
+  // Display wind speed
+  var day4Wind = $("#day4-wind");
+  getWindSpeed(fourthDayForecast, day4Wind);
 
   // DISPLAYING DATA FOR FIFTH DAY
+  // Display the day of the week
+  var day5 = fifthDay.format("dddd");
+  $("#day5-date").text(day5);
+
+  // Display the icon of the weather
+  var day5Icon = $("#day5-icon");
+  getWeatherIcon(fifthDayForecast, day5Icon);
+
+  // Display min and max temp
+  var day5Temp = $("#day5-temp");
+  getTemeratures(fifthDayForecast, day5Temp);
+
+  // Display humidity
+  var day5Humid = $("#day5-humid");
+  getHumidity(fifthDayForecast, day5Humid);
+
+  // Display wind speed
+  var day5Wind = $("#day5-wind");
+  getWindSpeed(fifthDayForecast, day5Wind);
 }
 
 // Display city name, the datem, icon representation of the weather, temp, humidity and wind speed for the 5 day forecast
@@ -397,8 +455,7 @@ function renderSearches() {
     $.each(savedSearch, function () {
       var div1 = $("<div>")
         .addClass("card recent-card")
-
-        .css({ width: "15rem", height: "5rem" });
+        .css({ width: "15rem", height: "5rem", "flex-grow": "1" });
       var div2 = $("<div>")
         .addClass("card-body text-center d-flex align-items-center")
         .attr({
