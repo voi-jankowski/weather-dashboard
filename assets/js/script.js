@@ -66,18 +66,23 @@ function getLocation() {
             .addClass("list-group-item btn btn-outline-primary removable")
             .attr("data-lat", this.lat.toFixed(2))
             .attr("data-lon", this.lon.toFixed(2))
-            .attr("onclick", "getWeather(event);")
+            .attr("onclick", "getCoordinates(event);")
             .text(this.name + " , " + this.state + " , " + this.country);
           $(".location-searches").append(createChoiceBtns);
         });
       }
     });
 }
-// Retrieve the weather conditions for the coordinates.
-function getWeather(event) {
-  // Fetching coordinates from data attributes of the selected location.
+
+// Fetching coordinates from data attributes of the selected location.
+function getCoordinates(event) {
   var lat = $(event.target).data("lat").toString();
   var lon = $(event.target).data("lon").toString();
+  getWeather(lat, lon);
+}
+
+// Retrieve the weather conditions for the coordinates.
+function getWeather(lat, lon) {
   console.log(lat);
   console.log(lon);
   console.log(weatherUnits);
@@ -493,11 +498,30 @@ function renderSearches() {
   }
 }
 
-renderSearches();
+function getLocalWeather() {}
 
-// Add event listener for the recent searches and present the forecast for the selected one and pass the parameter of event to getWeather.
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(getPosition);
+  } else {
+    $("#forecast-area").css({ display: "none" });
+  }
+}
+
+function getPosition(position) {
+  var localLat = position.coords.latitude.toFixed(2);
+  var localLon = position.coords.longitude.toFixed(2);
+  console.log(localLat);
+  console.log(localLon);
+  getWeather(localLat, localLon);
+}
+
+renderSearches();
+getLocation();
+
+// Add event listener for the recent searches and present the forecast for the selected one and pass the parameter of event to getCoordinates.
 recentSearches.on("click", ".card", function (event) {
-  getWeather(event);
+  getCoordinates(event);
 });
 
 // Add event listener to enter button for the search-box.
