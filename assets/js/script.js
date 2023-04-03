@@ -32,7 +32,7 @@ function getLocation() {
   console.log(searchPhrase);
 
   var locationUrl =
-    "http://api.openweathermap.org/geo/1.0/direct?q=" +
+    "https://api.openweathermap.org/geo/1.0/direct?q=" +
     searchPhrase +
     "&limit=5&appid=61a66bab5454a1423d5dd78c2e92913e";
 
@@ -502,7 +502,6 @@ function renderSearches() {
 // Get the location of the user to get their coordinates
 
 function getLocalCoordinates() {
-
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(getPosition);
     $("#forecast-area").css({ visibility: "visible" });
