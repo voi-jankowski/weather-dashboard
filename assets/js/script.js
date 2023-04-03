@@ -98,7 +98,7 @@ function getWeather(event) {
       var city = data.city.name;
       saveCity(lat, lon, city);
       displayWeather(data);
-
+      renderSearches();
       // Remove the selection of results under search button.
       $(".removable").remove();
     });
@@ -448,6 +448,8 @@ function saveCity(lat, lon, city) {
 
 // Retrieve the recent searches from the local storage and display them on the page.
 function renderSearches() {
+  // Clear the recent-searches cards if any are displayed.
+  recentSearches.empty();
   // Retrieve the recent searches
   var savedSearch = JSON.parse(localStorage.getItem("savedSearch"));
   // Check if data is returned, if not exit out of the function
@@ -485,4 +487,11 @@ renderSearches();
 // Add event listener for the recent searches and present the forecast for the selected one and pass the parameter of event to getWeather.
 recentSearches.on("click", ".card", function (event) {
   getWeather(event);
+});
+
+// Add event listener to enter button for the search-box.
+$("#search-phrase").keyup(function (event) {
+  if (event.keyCode === 13) {
+    $("#search-btn").click();
+  }
 });
