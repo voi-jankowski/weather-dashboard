@@ -64,3 +64,6 @@ h3 {
   padding-left: 0;
 }
 
+#forecast-area {
+  display: none;
+}

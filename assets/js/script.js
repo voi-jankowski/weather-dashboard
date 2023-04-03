@@ -123,8 +123,6 @@ function getWeather(lat, lon) {
 
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
 function displayWeather(data) {
-  // Display the cards in case they were not visible on loading the page.
-  $("#forecast-area").css({ display: "block" });
   // SEPARATE FORECAST FOR DIFFERENT DAYS
   // Setting variables and object
   var timezone = data.city.timezone;
