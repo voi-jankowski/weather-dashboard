@@ -20,8 +20,9 @@ $(".btn-toggle").click(function () {
 
   // On changing the units refresh the search that is being displayed so it is presented with the chosen unit of measure
   let savedSearch = JSON.parse(localStorage.getItem("savedSearch"));
-  let lat = savedSearch[5].lat;
-  let lon = savedSearch[5].lon;
+  let i = savedSearch.length - 1;
+  let lat = savedSearch[i].lat;
+  let lon = savedSearch[i].lon;
   getWeather(lat, lon);
 });
 
