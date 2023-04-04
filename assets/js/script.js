@@ -17,8 +17,15 @@ $(".btn-toggle").click(function () {
   $(this).find(".btn").toggleClass("active");
   $(this).find(".btn").toggleClass("btn-primary");
   $(this).find(".btn").toggleClass("btn-default");
+
+  // On changing the units refresh the search that is being displayed so it is presented with the chosen unit of measure
+  let savedSearch = JSON.parse(localStorage.getItem("savedSearch"));
+  console.log(savedSearch[5]);
+  let lat = savedSearch[5].lat;
+  let lon = savedSearch[5].lon;
+  getWeather(lat, lon);
 });
-console.log(weatherUnits);
+
 
 // Retrieve coordinates for a city name.
 function getLocation() {
