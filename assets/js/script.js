@@ -8,8 +8,8 @@ var weatherUnits = "metric";
 dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);
 // dayjs variables
-let printFormat = "DD/MM/YYYY H:mm";
-let hourFormat = "H:mm";
+const printFormat = "DD/MM/YYYY H:mm";
+const hourFormat = "H:mm";
 
 // Button toggle to switch between celcius and farenheit.
 
@@ -30,7 +30,6 @@ function getLocation() {
   // Clear possible previous display of search options
   $(".removable").remove();
   var searchPhrase = $("#search-phrase").val();
-  console.log(searchPhrase);
 
   var locationUrl =
     "https://api.openweathermap.org/geo/1.0/direct?q=" +
@@ -42,7 +41,6 @@ function getLocation() {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       // If there are no results for that search phrase display no result warning.
       if ($.isEmptyObject(data)) {
         var createWarning = $("<h5></h5>")
@@ -91,9 +89,6 @@ function getWeather(lat, lon) {
   } else {
     weatherUnits = "metric";
   }
-  console.log(lat);
-  console.log(lon);
-  console.log(weatherUnits);
 
   var weatherUrl =
     "https://api.openweathermap.org/data/2.5/forecast?lat=" +
@@ -102,23 +97,13 @@ function getWeather(lat, lon) {
     lon +
     "&appid=61a66bab5454a1423d5dd78c2e92913e&units=" +
     weatherUnits;
-  console.log(weatherUrl);
 
   fetch(weatherUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
-      console.log(data.city.name);
-      console.log(data.city.state);
-      console.log(data.city.country);
-      console.log(data.city.timezone);
-      console.log(data.city.sunrise);
-      console.log(data.city.sunset);
-      console.log(data.list[0].dt);
-
-      var city = data.city.name;
+      let city = data.city.name;
       saveCity(lat, lon, city);
       displayWeather(data, weatherUnits);
       renderSearches();
@@ -142,7 +127,7 @@ function displayWeather(data, weatherUnits) {
   var fifthDayForecast = [];
   // Get the dates for each day of the forecast
   var firstDay = dayjs.unix(data.list[0].dt).utc().add(timezone, "second");
-  console.log(firstDay.format(printFormat));
+
   var secondDay = dayjs.unix(data.list[8].dt).utc().add(timezone, "second");
   var thirdDay = dayjs.unix(data.list[16].dt).utc().add(timezone, "second");
   var fourthDay = dayjs.unix(data.list[24].dt).utc().add(timezone, "second");
@@ -150,11 +135,8 @@ function displayWeather(data, weatherUnits) {
   // Grouping the data into separate days objects
   $.each(data.list, function () {
     var givenDay = dayjs.unix(this.dt).utc().add(timezone, "second");
-    // console.log(givenDay.format(printFormat));
-    // console.log(givenDay.isSame(firstDay, "day"));
     if (givenDay.isSame(firstDay, "day")) {
       firstDayForecast.push(this);
-      console.log(firstDayForecast);
     } else if (givenDay.isSame(secondDay, "day")) {
       secondDayForecast.push(this);
     } else if (givenDay.isSame(thirdDay, "day")) {
@@ -167,12 +149,6 @@ function displayWeather(data, weatherUnits) {
   });
 
   firstDayForecast.push(data.list[0]);
-
-  console.log(firstDayForecast);
-  console.log(secondDayForecast);
-  // console.log(thirdDayForecast);
-  // console.log(fourthDayForecast);
-  // console.log(fifthDayForecast);
 
   // FUNCTIONS FOR SELECTING WEATHER DATA TO DISPLAY
   // Function for selecting the weather icon for a given day
@@ -212,7 +188,7 @@ function displayWeather(data, weatherUnits) {
       }
       return mostFrequent;
     })(weather);
-    console.log(weather);
+
     // Final selection of the icon to display: if it storms or snows at any point of the day, display that icon, otherwise display most frequent icon.
     var weatherIcon;
     if (weather.includes("13d") && !weather.includes("11d")) {
@@ -222,7 +198,6 @@ function displayWeather(data, weatherUnits) {
     } else {
       weatherIcon = mostFrequent;
     }
-    console.log(weatherIcon);
 
     // Display the icon
     if (weatherIcon.includes("01")) {
@@ -263,7 +238,6 @@ function displayWeather(data, weatherUnits) {
       var temp = Math.floor(this.main.temp);
       temperatures.push(temp);
     });
-    // console.log(temperatures);
 
     // Get the highest and lowest temepatures from the temperatures array
     var highTemp = Math.max(...temperatures);
@@ -285,7 +259,7 @@ function displayWeather(data, weatherUnits) {
       var humid = Math.floor(this.main.humidity);
       humidity.push(humid);
     });
-    console.log(humidity);
+
     // Calulate average humidity for the day
     var total = 0;
     var count = 0;
@@ -530,8 +504,7 @@ function getLocalCoordinates() {
 function getPosition(position) {
   var localLat = position.coords.latitude.toFixed(2);
   var localLon = position.coords.longitude.toFixed(2);
-  console.log(localLat);
-  console.log(localLon);
+
   getWeather(localLat, localLon);
 }
 
