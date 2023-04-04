@@ -1,6 +1,7 @@
 // GLOBAL VARIABLES
-// Variables for DOM elements
+
 var recentSearches = $("#recent-searches");
+var weatherUnits = "metric";
 
 // DAYJS GLOBAL
 // dayjs plugins
@@ -11,18 +12,13 @@ let printFormat = "DD/MM/YYYY H:mm";
 let hourFormat = "H:mm";
 
 // Button toggle to switch between celcius and farenheit.
-var weatherUnits = "metric";
+
 $(".btn-toggle").click(function () {
   $(this).find(".btn").toggleClass("active");
   $(this).find(".btn").toggleClass("btn-primary");
   $(this).find(".btn").toggleClass("btn-default");
-  if ($("#imperial").hasClass("active")) {
-    var weatherUnits = "imperial";
-  } else {
-    var weatherUnits = "metric";
-  }
-  console.log(weatherUnits);
 });
+console.log(weatherUnits);
 
 // Retrieve coordinates for a city name.
 function getLocation() {
@@ -84,6 +80,12 @@ function getCoordinates(event) {
 
 // Retrieve the weather conditions for the coordinates.
 function getWeather(lat, lon) {
+  // Checking for the seection of units of measure
+  if ($("#imperial").hasClass("active")) {
+    weatherUnits = "imperial";
+  } else {
+    weatherUnits = "metric";
+  }
   console.log(lat);
   console.log(lon);
   console.log(weatherUnits);
@@ -157,7 +159,7 @@ function displayWeather(data) {
       fifthDayForecast.push(this);
     }
   });
-  // console.log(firstDayForecast);
+  console.log(firstDayForecast);
   console.log(secondDayForecast);
   console.log(thirdDayForecast);
   console.log(fourthDayForecast);
