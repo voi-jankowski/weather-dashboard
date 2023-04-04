@@ -44,6 +44,10 @@ h3 {
   margin: 10px;
 }
 
+.recent-card .card-body {
+  padding: 0;
+}
+
 .weather-card .list-group-item {
   background: none;
   border-color: var(--light-blue);
@@ -63,7 +67,5 @@ h3 {
 }
 
 #forecast-area {
-
   visibility: hidden;
-
 }

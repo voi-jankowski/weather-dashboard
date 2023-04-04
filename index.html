@@ -95,19 +95,19 @@
           <div class="card mb-3" style="width: 18rem; height: 35rem">
             <div class="card-body weather-card">
               <h5 id="location-name" class="card-title"></h5>
-              <h4 id="day1-date" class="card-title"></h4>
-              <img id="day1-icon" class="card-img" src="" alt="weather icon" />
+              <h4 id="present-date" class="card-title"></h4>
+              <img id="present-icon" class="card-img" src="" alt="weather icon" />
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                  <h4><span id="day1-temp"></span></h4>
+                  <h4><span id="present-temp"></span></h4>
                 </li>
                 <li class="list-group-item">
                   Humidity:
-                  <span id="day1-humid" style="font-weight: bold"></span>
+                  <span id="present-humid" style="font-weight: bold"></span>
                 </li>
                 <li class="list-group-item">
                   Wind speed:
-                  <span id="day1-wind" style="font-weight: bold"></span>
+                  <span id="present-wind" style="font-weight: bold"></span>
                 </li>
                 <li class="list-group-item">
                   <i class="bi bi-sunrise-fill" style="font-size: 22px">
@@ -129,7 +129,30 @@
             </div>
           </div>
 
-          <div class="d-flex flex-wrap justify-content-left">
+          <div class="d-flex flex-wrap justify-content-between">
+            <div class="card mb-3" style="width: 13rem; height: 24.5rem">
+              <div class="card-body weather-card">
+                <h5 id="day1-date" class="card-title"></h5>
+                <img
+                  id="day1-icon"
+                  class="card-img"
+                  src=""
+                  alt="weather icon"
+                />
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <h5><span id="day1-temp"></span></h5>
+                  </li>
+                  <li class="list-group-item">
+                    Humidity:
+                    <span id="day1-humid" style="font-weight: bold"></span>
+                  </li>
+                  <li class="list-group-item">
+                    Wind: <span id="day1-wind" style="font-weight: bold"></span>
+                  </li>
+                </ul>
+              </div>
+            </div>
             <div class="card mb-3" style="width: 13rem; height: 24.5rem">
               <div class="card-body weather-card">
                 <h5 id="day2-date" class="card-title"></h5>
@@ -226,6 +249,9 @@
                 </ul>
               </div>
             </div>
+
+            
+            
           </div>
         </div>
       </div>
