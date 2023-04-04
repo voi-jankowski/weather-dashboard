@@ -18,7 +18,7 @@ You can find the search box in Your Locations section, where you can type the na
 
 ![Quiz in the game mode.](./assets/images/dashboard-2.png)
 
-Your forecast is presented in °C and meters/sec by default, but at the top of the page on the right hand side there is a cute little toggle to change the unit measurements for your forecasts if you prefer °F and miles/hour. You can choose between 'metric' represented by **°C** and 'imperial' represented by **°F**. Try flicking it to live change your present search and your next search.
+Your forecast is presented in **°C** and **meters/sec** by default, but at the top of the page on the right hand side there is a cute little toggle to change the unit measurements for your forecasts if you prefer **°F** and **miles/hour**. You can choose between **metric** represented by **_°C_** and **imperial** represented by **_°F_**. Try flicking it to live change your present search and your next search.
 
 ![Page with the quiz finished.](./assets/images/dashboard-3.png)
 
