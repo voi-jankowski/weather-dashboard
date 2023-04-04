@@ -115,7 +115,7 @@ function getWeather(lat, lon) {
 
       var city = data.city.name;
       saveCity(lat, lon, city);
-      displayWeather(data);
+      displayWeather(data, weatherUnits);
       renderSearches();
       // Remove the selection of results under search button and remove the search phrase from search box.
       $(".removable").remove();
@@ -124,7 +124,7 @@ function getWeather(lat, lon) {
 }
 
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
-function displayWeather(data) {
+function displayWeather(data, weatherUnits) {
   // Display the cards in case they were not visible on loading the page.
   $("#forecast-area").css({ visibility: "visible" });
   // SEPARATE FORECAST FOR DIFFERENT DAYS
@@ -261,7 +261,11 @@ function displayWeather(data) {
     var lowTemp = Math.min(...temperatures);
 
     // display them
-    tempEl.text(" " + highTemp + "° / " + lowTemp + "°");
+    if (weatherUnits === "imperial") {
+      tempEl.text(" " + highTemp + "°F / " + lowTemp + "°F");
+    } else {
+      tempEl.text(" " + highTemp + "°C / " + lowTemp + "°C");
+    }
   }
 
   // Function for getting the humidity on the given day
@@ -300,7 +304,11 @@ function displayWeather(data) {
     var highWind = Math.max(...windSpeeds);
 
     // Display the wind
-    windEl.text(" " + highWind + " m/s");
+    if (weatherUnits === "imperial") {
+      windEl.text(" " + highWind + " mi/h");
+    } else {
+      windEl.text(" " + highWind + " m/s");
+    }
   }
 
   // DISPLAYING DATA FOR FIRST DAY
