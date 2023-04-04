@@ -20,12 +20,10 @@ $(".btn-toggle").click(function () {
 
   // On changing the units refresh the search that is being displayed so it is presented with the chosen unit of measure
   let savedSearch = JSON.parse(localStorage.getItem("savedSearch"));
-  console.log(savedSearch[5]);
   let lat = savedSearch[5].lat;
   let lon = savedSearch[5].lon;
   getWeather(lat, lon);
 });
-
 
 // Retrieve coordinates for a city name.
 function getLocation() {
@@ -156,6 +154,7 @@ function displayWeather(data, weatherUnits) {
     // console.log(givenDay.isSame(firstDay, "day"));
     if (givenDay.isSame(firstDay, "day")) {
       firstDayForecast.push(this);
+      console.log(firstDayForecast);
     } else if (givenDay.isSame(secondDay, "day")) {
       secondDayForecast.push(this);
     } else if (givenDay.isSame(thirdDay, "day")) {
@@ -166,11 +165,14 @@ function displayWeather(data, weatherUnits) {
       fifthDayForecast.push(this);
     }
   });
+
+  firstDayForecast.push(data.list[0]);
+
   console.log(firstDayForecast);
   console.log(secondDayForecast);
-  console.log(thirdDayForecast);
-  console.log(fourthDayForecast);
-  console.log(fifthDayForecast);
+  // console.log(thirdDayForecast);
+  // console.log(fourthDayForecast);
+  // console.log(fifthDayForecast);
 
   // FUNCTIONS FOR SELECTING WEATHER DATA TO DISPLAY
   // Function for selecting the weather icon for a given day
