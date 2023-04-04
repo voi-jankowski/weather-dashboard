@@ -23,6 +23,8 @@ $(".btn-toggle").click(function () {
   let i = savedSearch.length - 1;
   let lat = savedSearch[i].lat;
   let lon = savedSearch[i].lon;
+  console.log(savedSearch[i].lat);
+  console.log(savedSearch[i].lon);
   getWeather(lat, lon);
 });
 
