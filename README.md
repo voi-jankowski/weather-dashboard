@@ -10,7 +10,7 @@ Access the scheduler at [live page](https://voi-jankowski.github.io/weather-dash
 
 ## Usage
 
-When you open the page for the first time your browser will ask for your permission to check your location, after you accept that the page loads with 5-days weather forecast for your present location.
+When you open the page for the first time your browser will ask for your permission to check your location, after you accept that the page loads with the current weather and 5-days weather forecast for your present location.
 
 ![Opening of the page.](./assets/images/dashboard-1.png)
 
