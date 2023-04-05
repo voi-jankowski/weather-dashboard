@@ -152,6 +152,14 @@ function displayWeather(data, weatherUnits) {
 
   firstDayForecast.push(data.list[0]);
 
+  console.log(data);
+  console.log(firstDayForecast);
+  console.log();
+  console.log();
+  console.log();
+  console.log(fifthDayForecast);
+
+
   // FUNCTIONS FOR SELECTING WEATHER DATA TO DISPLAY
   // Function for selecting the weather icon for a given day
   function getWeatherIcon(dayForecast, iconImg) {
@@ -469,7 +477,7 @@ function renderSearches() {
     $.each(savedSearch, function () {
       var div1 = $("<div>")
         .addClass("card recent-card")
-        .css({ width: "15rem", height: "5rem", "flex-grow": "1" });
+        .css({ width: "20rem", height: "5rem", "flex-grow": "1" });
       var div2 = $("<div>")
         .addClass("card-body text-center d-flex align-items-center")
         .attr({
