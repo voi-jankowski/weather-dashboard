@@ -92,6 +92,13 @@ function getWeather(lat, lon) {
     weatherUnits = "metric";
   }
 
+  var currentWeatherUrl =
+    "https://api.openweathermap.org/data/2.5/weather?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&appid=61a66bab5454a1423d5dd78c2e92913e&units=" +
+    weatherUnits;
   var weatherUrl =
     "https://api.openweathermap.org/data/2.5/forecast?lat=" +
     lat +
@@ -113,6 +120,13 @@ function getWeather(lat, lon) {
       $(".removable").remove();
       $(".search-phrase").val("");
     });
+  fetch(currentWeatherUrl)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (currentData) {
+      displayCurrentWeather(currentData, weatherUnits);
+    });
 }
 
 // Display city name, the date, icon representation of the weather, temp, humidity and wind speed
@@ -129,7 +143,7 @@ function displayWeather(data, weatherUnits) {
   var fifthDayForecast = [];
   // Get the dates for each day of the forecast
   var firstDay = dayjs.unix(data.list[0].dt).utc().add(timezone, "second");
-
+  console.log(firstDay.format(printFormat));
   var secondDay = dayjs.unix(data.list[8].dt).utc().add(timezone, "second");
   var thirdDay = dayjs.unix(data.list[16].dt).utc().add(timezone, "second");
   var fourthDay = dayjs.unix(data.list[24].dt).utc().add(timezone, "second");
@@ -158,7 +172,6 @@ function displayWeather(data, weatherUnits) {
   console.log();
   console.log();
   console.log(fifthDayForecast);
-
 
   // FUNCTIONS FOR SELECTING WEATHER DATA TO DISPLAY
   // Function for selecting the weather icon for a given day
@@ -245,7 +258,7 @@ function displayWeather(data, weatherUnits) {
     var temperatures = [];
     $.each(dayForecast, function () {
       // Convert the values into integers
-      var temp = Math.floor(this.main.temp);
+      var temp = Math.round(this.main.temp);
       temperatures.push(temp);
     });
 
@@ -266,7 +279,7 @@ function displayWeather(data, weatherUnits) {
     // collect the humidity data from the given day array
     var humidity = [];
     $.each(dayForecast, function () {
-      var humid = Math.floor(this.main.humidity);
+      var humid = Math.round(this.main.humidity);
       humidity.push(humid);
     });
 
@@ -279,7 +292,7 @@ function displayWeather(data, weatherUnits) {
       count++;
     });
     // Get the integer of calculated average
-    var humidAverage = Math.trunc(total / count);
+    var humidAverage = Math.round(total / count);
 
     // Display the average
     humidEl.text(" " + humidAverage + "%");
@@ -289,7 +302,7 @@ function displayWeather(data, weatherUnits) {
   function getWindSpeed(dayForecast, windEl) {
     var windSpeeds = [];
     $.each(dayForecast, function () {
-      var wind = Math.floor(this.wind.speed);
+      var wind = Math.round(this.wind.speed);
       windSpeeds.push(wind);
     });
 
@@ -304,11 +317,14 @@ function displayWeather(data, weatherUnits) {
     }
   }
 
-  // DISPLAYING DATA FOR FIRST DAY
+  // DISPLAYING DATA FOR PRESENT AND FIRST DAY
   // Display city name
   $("#location-name").text(data.city.name + " , " + data.city.country);
   // Display the date in a 'Monday, March 30' format.
-  var day1 = firstDay.format("dddd, MMMM D");
+  var presentDay = firstDay.format("dddd, MMMM D");
+  $("#present-date").text(presentDay);
+
+  var day1 = firstDay.format("dddd");
   $("#day1-date").text(day1);
 
   // Display the icon of the weather
@@ -424,6 +440,72 @@ function displayWeather(data, weatherUnits) {
   // Display wind speed
   var day5Wind = $("#day5-wind");
   getWindSpeed(fifthDayForecast, day5Wind);
+}
+
+// Create function for displaying current weather in the present weather-card.
+
+function displayCurrentWeather(currentData, weatherUnits) {
+  console.log(currentData);
+
+  // Display current weather icon
+  let presentIcon = currentData.weather[0].icon;
+  console.log(presentIcon);
+  let presentImg = $("#present-icon");
+
+  // Display the icon
+  if (presentIcon.includes("01")) {
+    presentImg.attr("src", "./assets/images/01-clear-icon.png");
+  }
+  if (presentIcon.includes("02")) {
+    presentImg.attr("src", "./assets/images/02-few-clouds-icon.png");
+  }
+  if (presentIcon.includes("03")) {
+    presentImg.attr("src", "./assets/images/03-scattered-clouds-icon.png");
+  }
+  if (presentIcon.includes("04")) {
+    presentImg.attr("src", "./assets/images/04-broken-clouds-icon.png");
+  }
+  if (presentIcon.includes("09")) {
+    presentImg.attr("src", "./assets/images/09-shower-rain-icon.png");
+  }
+  if (presentIcon.includes("10")) {
+    presentImg.attr("src", "./assets/images/10-rain-icon.png");
+  }
+  if (presentIcon.includes("11")) {
+    presentImg.attr("src", "./assets/images/11-thunderstorm-icon.png");
+  }
+  if (presentIcon.includes("13")) {
+    presentImg.attr("src", "./assets/images/13-snow-icon.png");
+  }
+  if (presentIcon.includes("50")) {
+    presentImg.attr("src", "./assets/images/50-mist-icon.png");
+  }
+
+  // Display current temperature
+  let presentTemp = Math.round(currentData.main.temp);
+  console.log(presentTemp);
+  let tempNow = $("#present-temp");
+  if (weatherUnits === "imperial") {
+    tempNow.text("Temp: " + presentTemp + "°F");
+  } else {
+    tempNow.text("Temp: " + presentTemp + "°C");
+  }
+
+  // Display current humidity
+  let presentHumid = currentData.main.humidity;
+  console.log(presentHumid);
+  let humidNow = $("#present-humid");
+  humidNow.text(" " + presentHumid + "%");
+
+  // Display current wind speed
+  let presentWind = Math.round(currentData.wind.speed);
+  console.log(presentWind);
+  let windNow = $("#present-wind");
+  if (weatherUnits === "imperial") {
+    windNow.text(" " + presentWind + " mi/h");
+  } else {
+    windNow.text(" " + presentWind + " m/s");
+  }
 }
 
 // Save the search in the local storage.
