@@ -33,7 +33,7 @@ function getLocation() {
   $(".removable").remove();
   let searchPhrase = $("#search-phrase").val();
 
-  const locationUrl =
+  let locationUrl =
     "https://api.openweathermap.org/geo/1.0/direct?q=" +
     searchPhrase +
     "&limit=5&appid=61a66bab5454a1423d5dd78c2e92913e";
@@ -92,14 +92,14 @@ function getWeather(lat, lon) {
     weatherUnits = "metric";
   }
 
-  var currentWeatherUrl =
+  let currentWeatherUrl =
     "https://api.openweathermap.org/data/2.5/weather?lat=" +
     lat +
     "&lon=" +
     lon +
     "&appid=61a66bab5454a1423d5dd78c2e92913e&units=" +
     weatherUnits;
-  var weatherUrl =
+  let weatherUrl =
     "https://api.openweathermap.org/data/2.5/forecast?lat=" +
     lat +
     "&lon=" +
@@ -133,7 +133,6 @@ function getWeather(lat, lon) {
 // Create function for displaying current weather in the present weather-card.
 
 function displayCurrentWeather(currentData, weatherUnits) {
-  console.log(currentData);
   let timezone = currentData.timezone;
 
   // Display city name
@@ -149,7 +148,7 @@ function displayCurrentWeather(currentData, weatherUnits) {
 
   // Display current weather icon
   let presentIcon = currentData.weather[0].icon;
-  console.log(presentIcon);
+
   let presentImg = $("#present-icon");
 
   // Display the icon
@@ -189,7 +188,7 @@ function displayCurrentWeather(currentData, weatherUnits) {
 
   // Display current temperature
   let presentTemp = Math.round(currentData.main.temp);
-  console.log(presentTemp);
+
   let tempNow = $("#present-temp");
   if (weatherUnits === "imperial") {
     tempNow.text("Temp: " + presentTemp + "°F");
@@ -199,13 +198,11 @@ function displayCurrentWeather(currentData, weatherUnits) {
 
   // Display current humidity
   let presentHumid = currentData.main.humidity;
-  console.log(presentHumid);
   let humidNow = $("#present-humid");
   humidNow.text(" " + presentHumid + "%");
 
   // Display current wind speed
   let presentWind = Math.round(currentData.wind.speed);
-  console.log(presentWind);
   let windNow = $("#present-wind");
   if (weatherUnits === "imperial") {
     windNow.text(" " + presentWind + " mi/h");
