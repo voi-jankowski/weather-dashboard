@@ -153,11 +153,17 @@ function displayCurrentWeather(currentData, weatherUnits) {
   let presentImg = $("#present-icon");
 
   // Display the icon
-  if (presentIcon.includes("01")) {
-    presentImg.attr("src", "./assets/images/01-clear-icon.png");
+  if (presentIcon.includes("01d")) {
+    presentImg.attr("src", "./assets/images/01d-clear-icon.png");
   }
-  if (presentIcon.includes("02")) {
-    presentImg.attr("src", "./assets/images/02-few-clouds-icon.png");
+  if (presentIcon.includes("01n")) {
+    presentImg.attr("src", "./assets/images/01n-clear-icon.png");
+  }
+  if (presentIcon.includes("02d")) {
+    presentImg.attr("src", "./assets/images/02d-few-clouds-icon.png");
+  }
+  if (presentIcon.includes("02n")) {
+    presentImg.attr("src", "./assets/images/02n-few-clouds-icon.png");
   }
   if (presentIcon.includes("03")) {
     presentImg.attr("src", "./assets/images/03-scattered-clouds-icon.png");
@@ -318,11 +324,17 @@ function displayWeather(data, weatherUnits) {
     }
 
     // Display the icon
-    if (weatherIcon.includes("01")) {
-      iconImg.attr("src", "./assets/images/01-clear-icon.png");
+    if (weatherIcon.includes("01d")) {
+      iconImg.attr("src", "./assets/images/01d-clear-icon.png");
     }
-    if (weatherIcon.includes("02")) {
-      iconImg.attr("src", "./assets/images/02-few-clouds-icon.png");
+    if (weatherIcon.includes("01n")) {
+      iconImg.attr("src", "./assets/images/01n-clear-icon.png");
+    }
+    if (weatherIcon.includes("02d")) {
+      iconImg.attr("src", "./assets/images/02d-few-clouds-icon.png");
+    }
+    if (weatherIcon.includes("02n")) {
+      iconImg.attr("src", "./assets/images/02n-few-clouds-icon.png");
     }
     if (weatherIcon.includes("03")) {
       iconImg.attr("src", "./assets/images/03-scattered-clouds-icon.png");
